@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace AlgorithmLibrary.Basic
 {
-    public class Fibonacci : ICalculate<BigInteger>
+    public class Fibonacci : ICalculator<BigInteger>
     {
         public BigInteger Calculate(BigInteger n)
         {

@@ -2,23 +2,23 @@
 
 namespace AlgorithmLibrary.DivideAndConquer
 {
-    public class DCNPowerCalculate : INPower<BigInteger>
+    public class DcNPowerCalculator : INPower<BigInteger>
     {
-        public BigInteger Power(BigInteger value, int nPower)
+        public BigInteger Power(BigInteger value, int n)
         {
-            if (nPower == 0)
+            if (n == 0)
             {
                 return 1;
             }
 
-            if (nPower % 2 == 0)
+            if (n % 2 == 0)
             {
-                var halfValue = Power(value, nPower / 2);
+                var halfValue = Power(value, n / 2);
                 return halfValue * halfValue;
             }
             else
             {
-                var halfValue = Power(value, nPower / 2);
+                var halfValue = Power(value, n / 2);
                 return halfValue * halfValue * value;
             }
         }

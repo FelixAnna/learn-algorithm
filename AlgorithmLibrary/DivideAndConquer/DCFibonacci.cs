@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AlgorithmLibrary.DivideAndConquer
 {
-    public class DCFibonacci : ICalculate<BigInteger>
+    public class DcFibonacci : ICalculator<BigInteger>
     {
         public BigInteger Calculate(BigInteger value)
         {

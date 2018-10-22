@@ -68,7 +68,8 @@ namespace AlgorithmLibrary.DivideAndConquer
                         result[k++] = first;
                     }
                 }
-            } while (i < firstArray.Count || j < lastArray.Count);
+            }
+            while (i < firstArray.Count || j < lastArray.Count);
 
             return result;
         }

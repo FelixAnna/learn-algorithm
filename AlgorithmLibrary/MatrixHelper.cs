@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlgorithmLibrary
 {
     public class MatrixHelper
     {
-        public static int[][] Muptiple(int[][] matFirst, int[][] matSecond)
+        public static int[][] Multiply(int[][] matFirst, int[][] matSecond)
         {
             if (matFirst[0].Length != matSecond.Length)
             {
@@ -14,22 +12,48 @@ namespace AlgorithmLibrary
             }
 
             var height = matSecond[0].Length;
-            var resut = new int[matFirst.Length][];
-            for (int i = 0; i < matFirst.Length; i++)
+            var result = new int[matFirst.Length][];
+            for (var i = 0; i < matFirst.Length; i++)
             {
-                resut[i] = new int[height];
-                for (int j = 0; j < matSecond[0].Length; j++)
+                result[i] = new int[height];
+                for (var j = 0; j < matSecond[0].Length; j++)
                 {
                     var sum = 0;
-                    for (int k = 0; k < matFirst[0].Length; k++)
+                    for (var k = 0; k < matFirst[0].Length; k++)
                     {
                         sum += matFirst[i][k] * matSecond[k][j];
                     }
-                    resut[i][j] = sum;
+                    result[i][j] = sum;
                 }
             }
 
-            return resut;
+            return result;
+        }
+
+        public static int[][] Add(int[][] matFirst, int[][] matSecond)
+        {
+            if (matFirst.Length != matSecond.Length || matFirst[0].Length != matSecond[0].Length)
+            {
+                throw new ArgumentException("The two matrix must have the same size.");
+            }
+
+            var height = matSecond[0].Length;
+            var result = new int[matFirst.Length][];
+            for (var i = 0; i < matFirst.Length; i++)
+            {
+                result[i] = new int[height];
+                for (var j = 0; j < matSecond[0].Length; j++)
+                {
+                    var sum = 0;
+                    for (var k = 0; k < matFirst[0].Length; k++)
+                    {
+                        sum += matFirst[i][k] * matSecond[k][j];
+                    }
+                    result[i][j] = sum;
+                }
+            }
+
+            return result;
         }
     }
 }

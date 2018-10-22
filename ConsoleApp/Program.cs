@@ -16,7 +16,7 @@ namespace ConsoleApp
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
-                array[i] = (int)(new Random(i).Next(arrayLength * 10));
+                array[i] = new Random(i).Next(arrayLength * 10);
             }
             //Print(array);
             var st = new Stopwatch();
@@ -33,38 +33,39 @@ namespace ConsoleApp
             //Print(result);
 
             st.Restart();
-            var value = new NPowerCalculate().Power(5, 999);
+            var value = new NPowerCalculator().Power(5, 999);
             st.Stop();
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
 
             st.Restart();
-            value = new DCNPowerCalculate().Power(5, 999);
+            value = new DcNPowerCalculator().Power(5, 999);
             st.Stop();
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
 
-            var matrix = new int[][] { new int[] { 1, 1 }, new int[] { 1, 0 } };
-            var mat = MatrixHelper.Muptiple(matrix, matrix);
-            mat= MatrixHelper.Muptiple(mat, matrix);
-            mat = MatrixHelper.Muptiple(mat, matrix);
-            mat = MatrixHelper.Muptiple(mat, matrix);
-            mat = MatrixHelper.Muptiple(mat, matrix);
+            var matrix = new[] { new[] { 1, 1 }, new[] { 1, 0 } };
+            var mat = MatrixHelper.Multiply(matrix, matrix);
+            mat = MatrixHelper.Multiply(mat, matrix);
+            mat = MatrixHelper.Multiply(mat, matrix);
+            mat = MatrixHelper.Multiply(mat, matrix);
+            mat = MatrixHelper.Multiply(mat, matrix);
             Print(mat);
             Console.ReadLine();
         }
 
-        static void Print<T>(IEnumerable<T> array)
+        private static void Print<T>(IEnumerable<T> array)
         {
             foreach (var item in array)
             {
-                if (item is IEnumerable)
+                if (item is IEnumerable enumerable)
                 {
-                    foreach (var subItem in (item as IEnumerable))
+                    foreach (var subItem in enumerable)
                     {
                         Console.Write(subItem);
                         Console.Write(",");
                     }
+
                     Console.WriteLine();
                 }
                 else
