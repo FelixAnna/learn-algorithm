@@ -25,29 +25,33 @@
             return first.Reduce(second);
         }
 
-        public static BigIntegerMatrix Multiply(BigIntegerMatrix matFirst, BigIntegerMatrix matSecond)
+        public static BigIntegerMatrix StrassenMultiply(BigIntegerMatrix matFirst, BigIntegerMatrix matSecond)
         {
-            if (matFirst[0].Length != matSecond.Length)
+            if (matFirst[0].Length != matSecond.Length
+                || matFirst.Length != matSecond[0].Length
+                || matFirst.Length != matFirst[0].Length)
             {
-                throw new ArgumentException("The width of the first matrix must equal to the height of the second matrix.");
+                throw new ArgumentException("The width and height the two matrix must be same.");
             }
 
-            if (matFirst.Length <= 5 || matSecond[0].Length <= 5)
+            if (matFirst.Length <= 5 || matSecond[0].Length <= 5
+                || matFirst.Length % 2 == 1 || matSecond.Length % 2 == 1
+                || matFirst[0].Length % 2 == 1 || matSecond[0].Length % 2 == 1)
             {
                 return matFirst * matSecond;
             }
 
 
             var (a, b, c, d) = DivideMatrix(matFirst);
-            var (e, f, g, h) = DivideMatrix(matFirst);
+            var (e, f, g, h) = DivideMatrix(matSecond);
 
-            var p1 = Multiply(a, f - h);
-            var p2 = Multiply(a + b, h);
-            var p3 = Multiply(c + d, e);
-            var p4 = Multiply(d, g - e);
-            var p5 = Multiply(a + d, e + h);
-            var p6 = Multiply(b - d, g + h);
-            var p7 = Multiply(a - c, e + f);
+            var p1 = StrassenMultiply(a, f - h);
+            var p2 = StrassenMultiply(a + b, h);
+            var p3 = StrassenMultiply(c + d, e);
+            var p4 = StrassenMultiply(d, g - e);
+            var p5 = StrassenMultiply(a + d, e + h);
+            var p6 = StrassenMultiply(b - d, g + h);
+            var p7 = StrassenMultiply(a - c, e + f);
 
             var mat1 = p5 + p4 - p2 + p6;
             var mat2 = p1 + p2;

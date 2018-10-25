@@ -14,7 +14,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            int arrayLength = 16;
+            int arrayLength = 64;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
@@ -74,7 +74,7 @@ namespace ConsoleApp
                 matrix2[i] = new System.Numerics.BigInteger[arrayLength];
                 for (var j = 0; j < arrayLength; j++)
                 {
-                    matrix2[i][j] = 1;
+                    matrix2[i][j] = new Random(i*j).Next(100);
                 }
             }
 
@@ -85,7 +85,7 @@ namespace ConsoleApp
             Console.WriteLine(st.ElapsedMilliseconds);
 
             st.Restart();
-            resultMat = BigIntegerMatrix.Multiply(matrix2, matrix2);
+            resultMat = BigIntegerMatrix.StrassenMultiply(matrix2, matrix2);
             st.Stop();
             Print(resultMat.AsEnumerable());
             Console.WriteLine(st.ElapsedMilliseconds);
