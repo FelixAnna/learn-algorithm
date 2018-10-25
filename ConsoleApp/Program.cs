@@ -8,11 +8,13 @@ using System.Diagnostics;
 
 namespace ConsoleApp
 {
+    using Entity;
+
     class Program
     {
         static void Main(string[] args)
         {
-            int arrayLength = 1000;
+            int arrayLength = 16;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
@@ -44,6 +46,19 @@ namespace ConsoleApp
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
 
+            int deepth = 20;
+            st.Restart();
+            value = new Fibonacci().Calculate(deepth);
+            st.Stop();
+            Console.WriteLine(value);
+            Console.WriteLine(st.ElapsedMilliseconds);
+
+            st.Restart();
+            value = new DcFibonacci().Calculate(deepth);
+            st.Stop();
+            Console.WriteLine(value);
+            Console.WriteLine(st.ElapsedMilliseconds);
+
             var matrix = new[] { new[] { 1, 1 }, new[] { 1, 0 } };
             var mat = MatrixHelper.Multiply(matrix, matrix);
             mat = MatrixHelper.Multiply(mat, matrix);
@@ -51,6 +66,30 @@ namespace ConsoleApp
             mat = MatrixHelper.Multiply(mat, matrix);
             mat = MatrixHelper.Multiply(mat, matrix);
             Print(mat);
+
+
+            var matrix2 = new BigIntegerMatrix(new System.Numerics.BigInteger[arrayLength][]);
+            for (var i = 0; i < arrayLength; i++)
+            {
+                matrix2[i] = new System.Numerics.BigInteger[arrayLength];
+                for (var j = 0; j < arrayLength; j++)
+                {
+                    matrix2[i][j] = 1;
+                }
+            }
+
+            st.Restart();
+            var resultMat = matrix2 * matrix2;
+            st.Stop();
+            Print(resultMat.AsEnumerable());
+            Console.WriteLine(st.ElapsedMilliseconds);
+
+            st.Restart();
+            resultMat = BigIntegerMatrix.Multiply(matrix2, matrix2);
+            st.Stop();
+            Print(resultMat.AsEnumerable());
+            Console.WriteLine(st.ElapsedMilliseconds);
+
             Console.ReadLine();
         }
 

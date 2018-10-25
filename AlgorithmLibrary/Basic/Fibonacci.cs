@@ -6,7 +6,7 @@ namespace AlgorithmLibrary.Basic
     {
         public BigInteger Calculate(BigInteger n)
         {
-            if (n <= 1)
+            if (n <= 2)
             {
                 return 1;
             }
