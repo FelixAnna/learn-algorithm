@@ -1,8 +1,8 @@
-﻿namespace AlgorithmLibrary.DivideAndConquer
-{
-    using Entity;
-    using System.Numerics;
+﻿using System.Numerics;
+using Entity;
 
+namespace AlgorithmLibrary.DivideAndConquer
+{
     public class MatrixNPowerCalculator
     {
         public IntegerMatrix Power(IntegerMatrix value, int n)

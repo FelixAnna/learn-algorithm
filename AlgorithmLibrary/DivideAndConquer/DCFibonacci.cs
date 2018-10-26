@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
+using Entity;
 
 namespace AlgorithmLibrary.DivideAndConquer
 {
-    using Entity;
-
     public class DcFibonacci : ICalculator<BigInteger>
     {
         public BigInteger Calculate(BigInteger n)

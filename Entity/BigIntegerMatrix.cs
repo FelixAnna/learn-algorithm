@@ -31,16 +31,13 @@
                 || matFirst.Length != matSecond[0].Length
                 || matFirst.Length != matFirst[0].Length)
             {
-                throw new ArgumentException("The width and height the two matrix must be same.");
+                throw new ArgumentException("The width and height of the two matrix must be same.");
             }
 
-            if (matFirst.Length <= 5 || matSecond[0].Length <= 5
-                || matFirst.Length % 2 == 1 || matSecond.Length % 2 == 1
-                || matFirst[0].Length % 2 == 1 || matSecond[0].Length % 2 == 1)
+            if (matFirst.Length <= 5 || matSecond[0].Length % 2 == 1)
             {
                 return matFirst * matSecond;
             }
-
 
             var (a, b, c, d) = DivideMatrix(matFirst);
             var (e, f, g, h) = DivideMatrix(matSecond);

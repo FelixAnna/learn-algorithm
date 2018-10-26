@@ -14,7 +14,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            int arrayLength = 64;
+            int arrayLength = 16;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
@@ -22,17 +22,23 @@ namespace ConsoleApp
             }
             //Print(array);
             var st = new Stopwatch();
-            st.Start();
-            var result = new MergedSort<int>().Sort(array);
-            st.Stop();
-            Console.WriteLine(st.ElapsedMilliseconds);
+            //st.Start();
+            ////var result = new MergedSort<int>().Sort(array);
+            //st.Stop();
+            //Console.WriteLine(st.ElapsedMilliseconds);
+            //Print(result);
+
+            //st.Restart();
+            ////result = new NormalSort<int>().Sort(array);
+            //st.Stop();
+            //Console.WriteLine(st.ElapsedMilliseconds);
             //Print(result);
 
             st.Restart();
-            result = new NormalSort<int>().Sort(array);
+            var result = new QuickSort<int>().Sort(array);
             st.Stop();
             Console.WriteLine(st.ElapsedMilliseconds);
-            //Print(result);
+            Print(result);
 
             st.Restart();
             var value = new NPowerCalculator().Power(5, 999);

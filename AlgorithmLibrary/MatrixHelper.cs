@@ -2,10 +2,6 @@
 
 namespace AlgorithmLibrary
 {
-    using System.Numerics;
-
-    using Entity;
-
     public class MatrixHelper
     {
         public static int[][] Multiply(int[][] matFirst, int[][] matSecond)
