@@ -14,28 +14,28 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            int arrayLength = 16;
+            int arrayLength = 8;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
-                array[i] = new Random(i).Next(arrayLength * 10);
+                array[i] = new Random().Next(arrayLength * 10);
             }
             //Print(array);
             var st = new Stopwatch();
-            //st.Start();
-            ////var result = new MergedSort<int>().Sort(array);
-            //st.Stop();
-            //Console.WriteLine(st.ElapsedMilliseconds);
-            //Print(result);
-
-            //st.Restart();
-            ////result = new NormalSort<int>().Sort(array);
-            //st.Stop();
-            //Console.WriteLine(st.ElapsedMilliseconds);
-            //Print(result);
+            st.Start();
+            var result = new MergedSort<int>().Sort(array);
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
+            Print(result);
 
             st.Restart();
-            var result = new QuickSort<int>().Sort(array);
+            result = new NormalSort<int>().Sort(array);
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
+            Print(result);
+
+            st.Restart();
+            result = new QuickSort<int>().Sort(array);
             st.Stop();
             Console.WriteLine(st.ElapsedMilliseconds);
             Print(result);
