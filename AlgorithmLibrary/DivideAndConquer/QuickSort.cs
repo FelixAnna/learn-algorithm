@@ -7,7 +7,7 @@ namespace AlgorithmLibrary.DivideAndConquer
 
     public class QuickSort<T> : ISort<T> where T : IComparable<T>
     {
-        public IList<T> Sort(T[] array, int start, int end)
+        private IList<T> Sort(T[] array, int start, int end)
         {
             if (start >= end)
             {

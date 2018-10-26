@@ -22,20 +22,26 @@ namespace ConsoleApp
             }
             //Print(array);
             var st = new Stopwatch();
-            st.Start();
-            var result = new MergedSort<int>().Sort(array);
-            st.Stop();
-            Console.WriteLine(st.ElapsedMilliseconds);
-            Print(result);
+            //st.Start();
+            //var result = new MergedSort<int>().Sort(array);
+            //st.Stop();
+            //Console.WriteLine(st.ElapsedMilliseconds);
+            //Print(result);
+
+            //st.Restart();
+            //result = new NormalSort<int>().Sort(array);
+            //st.Stop();
+            //Console.WriteLine(st.ElapsedMilliseconds);
+            //Print(result);
+
+            //st.Restart();
+            //result = new QuickSort<int>().Sort(array);
+            //st.Stop();
+            //Console.WriteLine(st.ElapsedMilliseconds);
+            //Print(result);
 
             st.Restart();
-            result = new NormalSort<int>().Sort(array);
-            st.Stop();
-            Console.WriteLine(st.ElapsedMilliseconds);
-            Print(result);
-
-            st.Restart();
-            result = new QuickSort<int>().Sort(array);
+            var result = new LinearSort().Sort(array);
             st.Stop();
             Console.WriteLine(st.ElapsedMilliseconds);
             Print(result);
