@@ -1,18 +1,19 @@
-﻿using AlgorithmLibrary;
-using AlgorithmLibrary.Basic;
-using AlgorithmLibrary.DivideAndConquer;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AlgorithmLibrary.Basic;
+using AlgorithmLibrary.DivideAndConquer;
 
 namespace ConsoleApp
 {
+    using System.Numerics;
+
     using Entity;
 
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             int arrayLength = 8;
             var array = new int[arrayLength];
@@ -20,73 +21,96 @@ namespace ConsoleApp
             {
                 array[i] = new Random().Next(arrayLength * 10);
             }
-            //Print(array);
+
+            TestSort(array);
+
+            int power = 999;
+            TestPowerOfN(5, power);
+
+            int depth = 20;
+            TestFibonacci(depth);
+
+            var matrixLength = 8;
+            TestMatrixMultiply(matrixLength);
+
+            Console.ReadLine();
+        }
+
+        private static void TestSort(int[] array)
+        {
+            Console.WriteLine("Test array - Insertion sort -> Merge sort -> Quick sort -> Linear sort:");
+            Print(array);
             var st = new Stopwatch();
-            //st.Start();
-            //var result = new MergedSort<int>().Sort(array);
-            //st.Stop();
-            //Console.WriteLine(st.ElapsedMilliseconds);
-            //Print(result);
-
-            //st.Restart();
-            //result = new NormalSort<int>().Sort(array);
-            //st.Stop();
-            //Console.WriteLine(st.ElapsedMilliseconds);
-            //Print(result);
-
-            //st.Restart();
-            //result = new QuickSort<int>().Sort(array);
-            //st.Stop();
-            //Console.WriteLine(st.ElapsedMilliseconds);
-            //Print(result);
-
-            st.Restart();
-            var result = new LinearSort().Sort(array);
+            st.Start();
+            var result = new InsertionSort<int>().Sort(array);
             st.Stop();
             Console.WriteLine(st.ElapsedMilliseconds);
             Print(result);
 
             st.Restart();
-            var value = new NPowerCalculator().Power(5, 999);
+            result = new MergedSort<int>().Sort(array);
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
+            Print(result);
+
+            st.Restart();
+            result = new QuickSort<int>().Sort(array);
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
+            Print(result);
+
+            st.Restart();
+            result = new LinearSort().Sort(array);
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
+            Print(result);
+        }
+
+        private static void TestPowerOfN(BigInteger x, int n)
+        {
+            Console.WriteLine($"Test {x} power of {n} - Recursive -> Split and recursive:");
+            var st = new Stopwatch();
+            st.Restart();
+            var value = new NPowerCalculator().Power(x, n);
             st.Stop();
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
 
             st.Restart();
-            value = new DcNPowerCalculator().Power(5, 999);
+            value = new DcNPowerCalculator().Power(x, n);
             st.Stop();
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
+        }
 
-            int deepth = 20;
+        private static void TestFibonacci(int n)
+        {
+            Console.WriteLine("Test fibonacci - Recursive -> Matrix power of n:");
+            var st = new Stopwatch();
             st.Restart();
-            value = new Fibonacci().Calculate(deepth);
+            var value = new Fibonacci().Calculate(n);
             st.Stop();
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
 
             st.Restart();
-            value = new DcFibonacci().Calculate(deepth);
+            value = new DcFibonacci().Calculate(n);
             st.Stop();
             Console.WriteLine(value);
             Console.WriteLine(st.ElapsedMilliseconds);
+        }
 
-            var matrix = new[] { new[] { 1, 1 }, new[] { 1, 0 } };
-            var mat = MatrixHelper.Multiply(matrix, matrix);
-            mat = MatrixHelper.Multiply(mat, matrix);
-            mat = MatrixHelper.Multiply(mat, matrix);
-            mat = MatrixHelper.Multiply(mat, matrix);
-            mat = MatrixHelper.Multiply(mat, matrix);
-            Print(mat);
-
-
-            var matrix2 = new BigIntegerMatrix(new System.Numerics.BigInteger[arrayLength][]);
-            for (var i = 0; i < arrayLength; i++)
+        private static void TestMatrixMultiply(int n)
+        {
+            Console.WriteLine("Test matrix multiply - Loop (n^3) -> Strassen Algorithm (n^log7 or n^2.81):");
+            var st = new Stopwatch();
+            var matrix2 = new BigIntegerMatrix(new System.Numerics.BigInteger[n][]);
+            for (var i = 0; i < n; i++)
             {
-                matrix2[i] = new System.Numerics.BigInteger[arrayLength];
-                for (var j = 0; j < arrayLength; j++)
+                matrix2[i] = new System.Numerics.BigInteger[n];
+                for (var j = 0; j < n; j++)
                 {
-                    matrix2[i][j] = new Random(i*j).Next(100);
+                    matrix2[i][j] = new Random(i * j).Next(100);
                 }
             }
 
@@ -101,8 +125,6 @@ namespace ConsoleApp
             st.Stop();
             Print(resultMat.AsEnumerable());
             Console.WriteLine(st.ElapsedMilliseconds);
-
-            Console.ReadLine();
         }
 
         private static void Print<T>(IEnumerable<T> array)

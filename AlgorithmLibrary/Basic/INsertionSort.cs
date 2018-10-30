@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AlgorithmLibrary.Basic
 {
-    public class NormalSort<T> : ISort<T> where T : IComparable<T>
+    public class InsertionSort<T> : ISort<T> where T : IComparable<T>
     {
         public IList<T> Sort(T[] array)
         {
