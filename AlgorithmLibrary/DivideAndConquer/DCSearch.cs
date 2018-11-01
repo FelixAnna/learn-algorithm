@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AlgorithmLibrary.DivideAndConquer
 {
-    class DCSearch<T> : ISearch<T> where T : IComparable<T>
+    public class DCSearch<T> : ISearch<T> where T : IComparable<T>
     {
         public T Max(IEnumerable<T> list, int rank)
         {
@@ -13,12 +13,12 @@ namespace AlgorithmLibrary.DivideAndConquer
 
         public T Min(IEnumerable<T> list, int rank = 1)
         {
-            return QuickSearch(list.ToArray(), 0, list.Count(), rank);
+            return QuickSearch(list.ToArray(), 0, list.Count() - 1, rank);
         }
 
         private T QuickSearch(T[] array, int startIndex, int endIndex, int rank)
         {
-            if (rank < startIndex || rank > endIndex)
+            if (rank - 1 < startIndex || rank - 1 > endIndex)
             {
                 return default(T);
             }
@@ -31,11 +31,11 @@ namespace AlgorithmLibrary.DivideAndConquer
             int i = startIndex;
             for (var j = i + 1; j <= endIndex; j++)
             {
-                if (array[j].CompareTo(array[i]) <= 0)
+                if (array[j].CompareTo(array[startIndex]) <= 0)
                 {
                     temp = array[++i];
                     array[i] = array[j];
-                    array[j++] = temp;
+                    array[j] = temp;
                 }
             }
 
@@ -45,11 +45,11 @@ namespace AlgorithmLibrary.DivideAndConquer
                 array[i] = array[startIndex];
                 array[startIndex] = temp;
 
-                if (i == rank)
+                if (i == rank - 1)
                 {
                     return array[i];
                 }
-                else if (i > rank)
+                else if (i > rank - 1)
                 {
                     return QuickSearch(array, startIndex, i - 1, rank);
                 }
@@ -60,7 +60,7 @@ namespace AlgorithmLibrary.DivideAndConquer
             }
             else
             {
-                if (i == rank)
+                if (i == rank - 1)
                 {
                     return array[i];
                 }

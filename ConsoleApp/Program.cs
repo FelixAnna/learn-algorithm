@@ -1,37 +1,38 @@
-﻿using System;
+﻿using AlgorithmLibrary.Basic;
+using AlgorithmLibrary.DivideAndConquer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using AlgorithmLibrary.Basic;
-using AlgorithmLibrary.DivideAndConquer;
 
 namespace ConsoleApp
 {
-    using System.Numerics;
-
     using Entity;
+    using System.Numerics;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            int arrayLength = 8;
+            int arrayLength = 10;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
                 array[i] = new Random().Next(arrayLength * 10);
             }
 
+            TestSearch(array, arrayLength / 2);
+
             TestSort(array);
 
-            int power = 999;
-            TestPowerOfN(5, power);
+            //int power = 999;
+            //TestPowerOfN(5, power);
 
-            int depth = 20;
-            TestFibonacci(depth);
+            //int depth = 35;
+            //TestFibonacci(depth);
 
-            var matrixLength = 8;
-            TestMatrixMultiply(matrixLength);
+            //var matrixLength = 8;
+            //TestMatrixMultiply(matrixLength);
 
             Console.ReadLine();
         }
@@ -125,6 +126,24 @@ namespace ConsoleApp
             st.Stop();
             Print(resultMat.AsEnumerable());
             Console.WriteLine(st.ElapsedMilliseconds);
+        }
+
+        private static void TestSearch(int[] array, int minIndex)
+        {
+            Console.WriteLine($"Test search of {minIndex}th min - Quicksort+search -> Linear Search:");
+            Print(array);
+            var st = new Stopwatch();
+            st.Start();
+            var result = new Search<int>().Min(array, minIndex);
+            st.Stop();
+            //Console.WriteLine(st.ElapsedMilliseconds);
+            Console.WriteLine(result);
+
+            st.Restart();
+            result = new DCSearch<int>().Min(array, minIndex);
+            st.Stop();
+           // Console.WriteLine(st.ElapsedMilliseconds);
+            Console.WriteLine(result);
         }
 
         private static void Print<T>(IEnumerable<T> array)
