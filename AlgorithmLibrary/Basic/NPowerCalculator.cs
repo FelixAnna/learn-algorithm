@@ -11,7 +11,7 @@ namespace AlgorithmLibrary.Basic
                 return 1;
             }
 
-            return value * Power(value, n - 1);
+            return value * Power(value: value, n: n - 1);
         }
     }
 }

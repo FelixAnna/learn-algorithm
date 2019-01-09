@@ -20,58 +20,58 @@ namespace AlgorithmLibrary.DivideAndConquer
                 return array?.ToList();
             }
 
-            var arrayOne = Sort(array.Take(array.Length / 2).ToArray());
-            var arrayTwo = Sort(array.Skip(array.Length / 2).ToArray());
+            var firstArray = Sort(array.Take(array.Length / 2).ToArray());
+            var secondArray = Sort(array.Skip(array.Length / 2).ToArray());
 
-            return Merge(arrayOne, arrayTwo);
+            return Merge(firstArray, secondArray);
         }
 
-        private IList<T> Merge(IList<T> firstArray, IList<T> lastArray)
+        private IList<T> Merge(IList<T> firstArray, IList<T> secondArray)
         {
             if (firstArray == null || firstArray.Count == 0)
             {
-                return lastArray;
+                return secondArray;
             }
 
-            if (lastArray == null || lastArray.Count == 0)
+            if (secondArray == null || secondArray.Count == 0)
             {
                 return firstArray;
             }
 
-            T[] result = new T[firstArray.Count + lastArray.Count];
-            int i, j, k;
-            i = j = k = 0;
+            T[] combinedArray = new T[firstArray.Count + secondArray.Count];
+            int firstIndex, secondIndex, combinedIndex;
+            firstIndex = secondIndex = combinedIndex = 0;
 
             do
             {
-                if (i == firstArray.Count)
+                if (firstIndex == firstArray.Count)
                 {
-                    result[k++] = lastArray[j++];
+                    combinedArray[combinedIndex++] = secondArray[secondIndex++];
                 }
-                else if (j == lastArray.Count)
+                else if (secondIndex == secondArray.Count)
                 {
-                    result[k++] = firstArray[i++];
+                    combinedArray[combinedIndex++] = firstArray[firstIndex++];
                 }
                 else
                 {
-                    var first = firstArray[i];
-                    var last = lastArray[j];
+                    var first = firstArray[firstIndex];
+                    var last = secondArray[secondIndex];
 
                     if (first.CompareTo(last) > 0)
                     {
-                        j++;
-                        result[k++] = last;
+                        secondIndex++;
+                        combinedArray[combinedIndex++] = last;
                     }
                     else
                     {
-                        i++;
-                        result[k++] = first;
+                        firstIndex++;
+                        combinedArray[combinedIndex++] = first;
                     }
                 }
             }
-            while (i < firstArray.Count || j < lastArray.Count);
+            while (firstIndex < firstArray.Count || secondIndex < secondArray.Count);
 
-            return result;
+            return combinedArray;
         }
     }
 }

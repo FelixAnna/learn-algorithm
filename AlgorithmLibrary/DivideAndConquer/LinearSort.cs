@@ -26,9 +26,8 @@ namespace AlgorithmLibrary.DivideAndConquer
             var result = new int[array.Length];
             for (var i = array.Length - 1; i >= 0; i--)
             {
-                var pos = countT[array[i] - start];
-                result[pos - 1] = array[i];
-                countT[array[i] - start]--;
+                ref int pos = ref countT[array[i] - start];
+                result[--pos] = array[i];
             }
 
             return result;

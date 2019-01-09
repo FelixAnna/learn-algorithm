@@ -11,7 +11,7 @@ namespace AlgorithmLibrary.Basic
                 return 1;
             }
 
-            return Calculate(n - 1) + Calculate(n - 2);
+            return Calculate(n: n - 1) + Calculate(n: n - 2);
         }
     }
 }

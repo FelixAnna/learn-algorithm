@@ -7,28 +7,28 @@ namespace Entity
     public class IntegerMatrix : Matrix<int>
     {
         public IntegerMatrix(int[][] mat)
-            : base(mat)
+            : base(mat: mat)
         {
         }
 
         public static IntegerMatrix operator *(IntegerMatrix first, IntegerMatrix second)
         {
-            return first.Multiply(second);
+            return first.Multiply(target: second);
         }
 
         public static IntegerMatrix operator +(IntegerMatrix first, IntegerMatrix second)
         {
-            return first.Add(second);
+            return first.Add(target: second);
         }
 
         public static IntegerMatrix operator -(IntegerMatrix first, IntegerMatrix second)
         {
-            return first.Reduce(second);
+            return first.Reduce(target: second);
         }
 
         public static implicit operator IntegerMatrix(int[][] value)
         {
-            var mat = new IntegerMatrix(value);
+            var mat = new IntegerMatrix(mat: value);
             return mat;
         }
 

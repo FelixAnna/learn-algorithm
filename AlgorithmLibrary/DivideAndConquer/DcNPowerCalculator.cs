@@ -13,12 +13,12 @@ namespace AlgorithmLibrary.DivideAndConquer
 
             if (n % 2 == 0)
             {
-                var halfValue = Power(value, n / 2);
+                var halfValue = Power(value: value, n: n / 2);
                 return halfValue * halfValue;
             }
             else
             {
-                var halfValue = Power(value, n / 2);
+                var halfValue = Power(value: value, n: n / 2);
                 return halfValue * halfValue * value;
             }
         }
