@@ -15,7 +15,7 @@ namespace ConsoleApp
     {
         public static void Main(string[] args)
         {
-            int arrayLength = 20;
+            int arrayLength = 20000;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
@@ -151,18 +151,27 @@ namespace ConsoleApp
 
         private static void TestDynamicProgramming(int[] array)
         {
+            Console.WriteLine($"Test build tree - Adhoc insert -> QuickSort & insert:");
+            var st = new Stopwatch();
+            st.Restart();
             var tree2 = new BinaryTree<int>(array.First());
             foreach (var item in array.Skip(1))
             {
                 tree2.Insert(item);
             }
-            var result2 = tree2.Visit();
-            Print(result2);
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
 
+            var result2 = tree2.Visit();
+            Print(result2.Skip(result2.Count()-10));
+
+            st.Restart();
             var sortedArray = new QuickSort<int>().Sort(array);
             var tree = new BinaryTree<int>(sortedArray.ToArray());
+            st.Stop();
+            Console.WriteLine(st.ElapsedMilliseconds);
             var result = tree.Visit();
-            Print(result);
+            Print(result.Skip(result2.Count() - 10));
         }
 
         private static void Print<T>(IEnumerable<T> array)

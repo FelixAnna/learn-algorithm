@@ -51,21 +51,19 @@ namespace AlgorithmLibrary.Basic
         public IEnumerable<T> Visit()
         {
             var result = new List<T>();
-            if (this.Value != null)
+
+            var leftValues = this.Left?.Visit();
+            if (leftValues != null && leftValues.Any())
             {
-                var leftValues = this.Left?.Visit();
-                if (leftValues != null && leftValues.Any())
-                {
-                    result.AddRange(leftValues);
-                }
+                result.AddRange(leftValues);
+            }
 
-                result.Add(this.Value);
+            result.Add(this.Value);
 
-                var rightValues = this.Right?.Visit();
-                if (rightValues != null && rightValues.Any())
-                {
-                    result.AddRange(rightValues);
-                }
+            var rightValues = this.Right?.Visit();
+            if (rightValues != null && rightValues.Any())
+            {
+                result.AddRange(rightValues);
             }
 
             return result;
@@ -73,12 +71,7 @@ namespace AlgorithmLibrary.Basic
 
         public BinaryTree<T> Find(T value)
         {
-            if (this.Value == null)
-            {
-                return null;
-            }
-
-            var compare = this.Value.CompareTo(value);
+            var compare = this.Value?.CompareTo(value);
             if (compare == 0)
             {
                 return this;
