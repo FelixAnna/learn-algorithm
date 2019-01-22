@@ -8,22 +8,25 @@ using System.Diagnostics;
 namespace ConsoleApp
 {
     using Entity;
+    using System.Linq;
     using System.Numerics;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            int arrayLength = 10;
+            int arrayLength = 20;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
                 array[i] = new Random().Next(arrayLength * 10);
             }
 
-            TestSearch(array, arrayLength / 2);
+            //TestSearch(array, arrayLength / 2);
 
-            TestSort(array);
+            //TestSort(array);
+
+            TestDynamicProgramming(array);
 
             //int power = 999;
             //TestPowerOfN(5, power);
@@ -142,8 +145,24 @@ namespace ConsoleApp
             st.Restart();
             result = new DCSearch<int>().Min(array, minIndex);
             st.Stop();
-           // Console.WriteLine(st.ElapsedMilliseconds);
+            // Console.WriteLine(st.ElapsedMilliseconds);
             Console.WriteLine(result);
+        }
+
+        private static void TestDynamicProgramming(int[] array)
+        {
+            var tree2 = new BinaryTree<int>(array.First());
+            foreach (var item in array.Skip(1))
+            {
+                tree2.Insert(item);
+            }
+            var result2 = tree2.Visit();
+            Print(result2);
+
+            var sortedArray = new QuickSort<int>().Sort(array);
+            var tree = new BinaryTree<int>(sortedArray.ToArray());
+            var result = tree.Visit();
+            Print(result);
         }
 
         private static void Print<T>(IEnumerable<T> array)
