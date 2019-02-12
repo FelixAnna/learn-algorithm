@@ -15,7 +15,7 @@ namespace ConsoleApp
     {
         public static void Main(string[] args)
         {
-            int arrayLength = 20000;
+            int arrayLength = 20;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
             {
@@ -26,7 +26,7 @@ namespace ConsoleApp
 
             //TestSort(array);
 
-            TestDynamicProgramming(array);
+            TestTree(array);
 
             //int power = 999;
             //TestPowerOfN(5, power);
@@ -149,7 +149,7 @@ namespace ConsoleApp
             Console.WriteLine(result);
         }
 
-        private static void TestDynamicProgramming(int[] array)
+        private static void TestTree(int[] array)
         {
             Console.WriteLine($"Test build tree - Adhoc insert -> QuickSort & insert:");
             var st = new Stopwatch();
@@ -159,6 +159,11 @@ namespace ConsoleApp
             {
                 tree2.Insert(item);
             }
+
+            foreach (var item in array.Take(10))
+            {
+                tree2.Delete(item);
+            }
             st.Stop();
             Console.WriteLine(st.ElapsedMilliseconds);
 
@@ -166,8 +171,12 @@ namespace ConsoleApp
             Print(result2.Skip(result2.Count()-10));
 
             st.Restart();
-            var sortedArray = new QuickSort<int>().Sort(array);
+            var sortedArray = new QuickSort<int>().Sort(array.ToList().ToArray());
             var tree = new BinaryTree<int>(sortedArray.ToArray());
+            foreach (var item in array.Take(10))
+            {
+                tree.Delete(item);
+            }
             st.Stop();
             Console.WriteLine(st.ElapsedMilliseconds);
             var result = tree.Visit();
