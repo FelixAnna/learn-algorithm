@@ -16,11 +16,11 @@ void dynamicPrograming::Initial()
 	prices[5] = 12;
 	prices[6] = 15;
 	prices[7] = 17;
-	prices[8] = 20;
-	prices[9] = 30;
+	prices[8] = 18;
+	prices[9] = 19;
 
 
-	for (int j = 0; j < 10000; j++) {
+	for (int j = 0; j < CalculateLevel; j++) {
 		bst[j] = 0;
 	}
 }
@@ -30,7 +30,7 @@ dynamicPrograming::dynamicPrograming()
 	Initial();
 }
 
-int dynamicPrograming::GetBestSolution(int input)
+int dynamicPrograming::GetBestValue(int input)
 {
 	if (input == 0) {
 		return 0;
@@ -45,22 +45,38 @@ int dynamicPrograming::GetBestSolution(int input)
 
 		auto solution = 0;
 		for (int j = 1; j <= i; j++) {
-			auto new_solution = getPrice(j) + GetBestSolution(i - j);
+			auto new_solution = getPrice(j) + GetBestValue(i - j);
 			if (new_solution > solution) {
 				solution = new_solution;
 				cut = j;
 			}
 		}
 
-		std::cout << cut << std::endl;
+		bstStrategy[i] = cut;
 		bst[i] = solution;
 	}
 
 	return bst[input];
 }
 
+int* dynamicPrograming::GetBestSolution(int input) {
+	int solution[10000];
+	int * result = solution;
+	int remaining = input;
+	for (int i = 0; i < CalculateLevel; i++) {
+		if (bstStrategy[remaining] < 0) {
+			break;
+		}
+
+		* result = bstStrategy[remaining];
+		remaining -= bstStrategy[remaining];
+		result++;
+	}
+
+	return solution;
+}
 int dynamicPrograming::getPrice(int input) {
-	if (input >= 10) {
+	if (input >= PriceLevel) {
 		return 0;
 	}
 

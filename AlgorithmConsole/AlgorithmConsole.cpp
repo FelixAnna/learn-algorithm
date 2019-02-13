@@ -5,18 +5,32 @@
 #include "dynamicPrograming.h"
 #include <iostream>
 
+void TestDP(dynamicPrograming dp, int value);
+
 int main()
 {
 	auto dp=dynamicPrograming::dynamicPrograming();
-	auto sol = dp.GetBestSolution(1);
-	std::cout << "Best solution for 1 is:"<<sol<<std::endl;
-
-	sol = dp.GetBestSolution(77);
-	std::cout << "Best solution for 77 is:" << sol << std::endl;
-
-	sol = dp.GetBestSolution(8000);
-	std::cout << "Best solution for 8000 is:" << sol << std::endl;
+	TestDP(dp, 9999);
+	TestDP(dp, 37);
+	TestDP(dp, 9);
+	TestDP(dp, 3);
     std::cout << "Hello World!\n"; 
+}
+
+void TestDP(dynamicPrograming dp, int value) {
+	auto sol = dp.GetBestValue(value);
+	std::cout << "Best solution for "<<value<<" is:" << sol << std::endl;
+
+	int* solution = dp.GetBestSolution(value);
+	for (int i = 0; i < CalculateLevel; i++)
+	{
+		if (*(solution + i) <= 0) {
+			break;
+		}
+
+		std::cout << *(solution + i) << " ";
+	}
+	std::cout << "Done!\n";
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
