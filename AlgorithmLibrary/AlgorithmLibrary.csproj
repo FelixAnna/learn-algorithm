@@ -5,17 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\**" />
     <Compile Remove="NewFolder\**" />
+    <EmbeddedResource Remove="Model\**" />
     <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="Model\**" />
     <None Remove="NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Entity\Entity.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\" />
   </ItemGroup>
 
 </Project>
