@@ -7,15 +7,7 @@ LCS::LCS(string first, string second)
 {
 	LCS::first = first;
 	LCS::second = second;
-}
 
-
-LCS::~LCS()
-{
-}
-
-int LCS::FindLCS_Length()
-{
 	rowLength = first.length() + 1;
 	colLength = second.length() + 1;
 
@@ -29,7 +21,15 @@ int LCS::FindLCS_Length()
 	for (int i = 0; i < colLength; i++) {
 		mappings[0][i] = 0;
 	}
+}
 
+
+LCS::~LCS()
+{
+}
+
+int LCS::FindLCS_Length()
+{
 	for (int i = 1; i < rowLength; i++)
 	{
 		for (int j = 1; j < colLength; j++)
@@ -62,9 +62,10 @@ string LCS::GetOneLCS()
 				}
 				else if (mappings[i][j] == mappings[i - 1][j])
 				{
+					maxLength = j;
 					break;
 				}
-				else 
+				else
 				{
 					results[index--] = first[i - 1];
 					maxLength = j - 1;
@@ -75,4 +76,44 @@ string LCS::GetOneLCS()
 	}
 
 	return results;
+}
+
+int LCS::FindLCSubstring_Length()
+{
+	int maxLength = 0;
+	for (int i = 1; i < rowLength; i++)
+	{
+		for (int j = 1; j < colLength; j++)
+		{
+			if (first[i - 1] == second[j - 1]) {
+				mappings[i][j] = mappings[i - 1][j - 1] + 1;
+				maxLength = maxLength > mappings[i][j] ? maxLength : mappings[i][j];
+			}
+			else
+			{
+				mappings[i][j] = 0;
+			}
+		}
+	}
+
+	return maxLength;
+}
+
+string LCS::GetOneLCSubstring(int length)
+{
+	char* results = new char[length];
+	for (int i = rowLength - 1; i > 0; i--)
+	{
+		for (int j = colLength - 1; j > 0; j--)
+		{
+			if (mappings[i][j] == length) {
+				for (int k = length - 1; k >= 0; k--) {
+					results[k] = first[i - length + k];
+				}
+				return results;
+			}
+		}
+	}
+
+	return nullptr;
 }

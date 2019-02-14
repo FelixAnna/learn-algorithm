@@ -11,21 +11,25 @@ void TestDP(dynamicPrograming dp, int value);
 
 int main()
 {
-	auto dp=dynamicPrograming::dynamicPrograming();
+	auto dp = dynamicPrograming::dynamicPrograming();
 	TestDP(dp, 9999);
 	TestDP(dp, 37);
 	TestDP(dp, 9);
 	TestDP(dp, 3);
 
 	auto lcs = LCS::LCS("etrsdefabdc", "eraqbec");
-	auto length=lcs.FindLCS_Length();
+	auto length = lcs.FindLCS_Length();
 	auto results = lcs.GetOneLCS();
-    std::cout << "Hello World!\n"; 
+
+	auto lcsub = LCS::LCS("1abcbc2ertyuid", "34eabcbc4ertyuid5k");
+	length = lcsub.FindLCSubstring_Length();
+	results = lcsub.GetOneLCSubstring(length);
+	std::cout << "Hello World!\n";
 }
 
 void TestDP(dynamicPrograming dp, int value) {
 	auto sol = dp.GetBestValue(value);
-	std::cout << "Best solution for "<<value<<" is:" << sol << std::endl;
+	std::cout << "Best solution for " << value << " is:" << sol << std::endl;
 
 	int* solution = dp.GetBestSolution(value);
 	for (int i = 0; i < CalculateLevel; i++)
