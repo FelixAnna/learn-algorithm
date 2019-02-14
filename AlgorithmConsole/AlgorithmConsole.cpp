@@ -2,8 +2,10 @@
 //
 
 #include "pch.h"
+#include "LCS.h"
 #include "dynamicPrograming.h"
 #include <iostream>
+using namespace std;
 
 void TestDP(dynamicPrograming dp, int value);
 
@@ -14,6 +16,10 @@ int main()
 	TestDP(dp, 37);
 	TestDP(dp, 9);
 	TestDP(dp, 3);
+
+	auto lcs = LCS::LCS("etrsdefabdc", "eraqbec");
+	auto length=lcs.FindLCS_Length();
+	auto results = lcs.GetOneLCS();
     std::cout << "Hello World!\n"; 
 }
 

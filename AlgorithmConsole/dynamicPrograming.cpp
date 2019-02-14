@@ -19,9 +19,9 @@ void dynamicPrograming::Initial()
 	prices[8] = 18;
 	prices[9] = 19;
 
-
 	for (int j = 0; j < CalculateLevel; j++) {
 		bst[j] = 0;
+		bstStrategy[j] = 0;
 	}
 }
 

@@ -14,7 +14,6 @@ public:
 	~dynamicPrograming();
 
 	int GetBestValue(int input);
-
 	int* GetBestSolution(int input);
 };
 
