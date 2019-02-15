@@ -49,7 +49,7 @@ int LCS::FindLCS_Length()
 string LCS::GetOneLCS()
 {
 	const int resultLength = mappings[rowLength - 1][colLength - 1];
-	char* results = new char[resultLength];
+	auto results = new char[resultLength + 1];
 	int maxLength = colLength - 1;
 	int index = resultLength - 1;
 	for (int i = rowLength - 1; i > 0; i--)
@@ -75,7 +75,8 @@ string LCS::GetOneLCS()
 		}
 	}
 
-	return results;
+	results[resultLength] = '\0';
+	return string(results);
 }
 
 int LCS::FindLCSubstring_Length()
@@ -101,7 +102,8 @@ int LCS::FindLCSubstring_Length()
 
 string LCS::GetOneLCSubstring(int length)
 {
-	char* results = new char[length];
+	char* results = new char[length + 1];
+	results[length] = '\0';
 	for (int i = rowLength - 1; i > 0; i--)
 	{
 		for (int j = colLength - 1; j > 0; j--)

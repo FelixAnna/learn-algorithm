@@ -1,6 +1,4 @@
-#include <string>
 #include <iostream>
-#include <string.h>
 using namespace std;
 
 #pragma once
@@ -27,12 +25,12 @@ public:
 	string GetOneLCS();
 
 	/*
-	Longest common sequence
+	Longest common substring
 	*/
 	int FindLCSubstring_Length();
 
 	/*
-	Get one of the common sequence
+	Get one of the common substring
 	*/
 	string GetOneLCSubstring(int length);
 };

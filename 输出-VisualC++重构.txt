@@ -1,0 +1,65 @@
+﻿
+将“j”重命名为“i”:
+------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\LCS.cpp(22, 11)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\LCS.cpp(22, 18)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\LCS.cpp(22, 33)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\LCS.cpp(23, 12)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\LCS.cpp(24, 12)
+
+将“Identifier”重命名为“identifier”:
+------------------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(17, 23)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(19, 21)
+
+将“Name”重命名为“name”:
+------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(17, 42)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(20, 15)
+
+将“Identifier”重命名为“identifier”:
+------------------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(11, 23)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(13, 21)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.cpp(14, 15)
+
+将“Identifier”重命名为“identifier”:
+------------------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Vertex.h(9, 16)
+
+将“AddEdge”重命名为“AddLinkedEdge”:
+------------------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Graph.cpp(21, 13)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Graph.h(14, 7)
+
+将“Edge”重命名为“string”:
+--------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(5, 1)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(5, 7)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(10, 1)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(10, 7)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(10, 40)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(16, 1)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(16, 7)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(24, 1)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(24, 8)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(3, 7)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(6, 2)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(7, 2)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(8, 2)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(9, 3)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Graph.cpp(21, 27)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Graph.h(11, 7)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Graph.h(14, 21)
+
+将“Start”重命名为“Point”:
+--------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(12, 8)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(16, 13)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(11, 10)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Graph.cpp(26, 10)
+
+将“AddNext”重命名为“AppendNext”:
+---------------------------
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.cpp(21, 13)
+C:\Users\yuxiangyong\source\repos\ConsoleApp\AlgorithmConsole\Edge.h(14, 8)
