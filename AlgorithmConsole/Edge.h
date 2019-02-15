@@ -11,5 +11,6 @@ public:
 	double Distance;
 
 	double MinDistance;
+	Vertex* MinVertex;
 };
 

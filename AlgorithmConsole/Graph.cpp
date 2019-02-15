@@ -83,16 +83,21 @@ void Graph::FindSP(string start, string end) {
 	{
 		auto minDist = 0;
 		auto end = e->End->Identifier;
+		Vertex* minVertex = nullptr;
 		for (Edge* es : *visited)
 		{
 			if (es->End->Identifier == end) {
-				minDist = minDist == 0 || es->MinDistance < minDist ? es->MinDistance : minDist;
+				if (minDist == 0 || es->MinDistance < minDist) {
+					minVertex = es->Start;
+					minDist = es->MinDistance;
+				}
 			}
 		}
 
 		for (Edge* es : *visited)
 		{
 			if (es->End->Identifier == end) {
+				es->MinVertex = minVertex;
 				es->MinDistance = minDist;
 			}
 		}
