@@ -3,14 +3,13 @@
 class Edge
 {
 public:
-	Edge();
-	Edge(Vertex* point, double distance);
+	Edge(Vertex* start, Vertex* end, double distance);
 	~Edge();
 
+	Vertex* Start;
+	Vertex* End;
 	double Distance;
-	Vertex* Point;
-	Edge* Next;
 
-	Edge* AppendNext(Vertex* point, double distance);
+	double MinDistance;
 };
 

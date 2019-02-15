@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="dynamicPrograming.h" />
     <ClInclude Include="Edge.h" />
+    <ClInclude Include="LinkedListEdge.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="pch.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="AlgorithmConsole.cpp" />
     <ClCompile Include="dynamicPrograming.cpp" />
     <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="LinkedListEdge.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="LCS.cpp" />
     <ClCompile Include="pch.cpp">

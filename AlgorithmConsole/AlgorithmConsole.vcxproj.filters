@@ -30,10 +30,13 @@
     <ClInclude Include="Vertex.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Edge.h">
+    <ClInclude Include="Graph.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Graph.h">
+    <ClInclude Include="LinkedListEdge.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,10 +56,13 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Edge.cpp">
+    <ClCompile Include="Graph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
+    <ClCompile Include="LinkedListEdge.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Edge.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

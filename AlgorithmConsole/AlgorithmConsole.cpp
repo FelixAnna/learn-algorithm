@@ -56,8 +56,8 @@ void TestDynamicPrograming()
 	cout << results << endl;
 }
 
-void TestGraph() {
-	auto graph = Graph::Graph();
+Graph* BuildGraph() {
+	Graph* graph = new Graph();
 
 	//Vertex
 	auto a1 = new Vertex("a1", "A one road");
@@ -73,44 +73,52 @@ void TestGraph() {
 	auto c1 = new Vertex("c1", "C one road");
 	auto c4 = new Vertex("c4", "C four road");
 
-	auto a1e = new Edge(a1, 0); a1e->AppendNext(a2, 3);
-	auto a2e = new Edge(a2, 0); a2e->AppendNext(a1, 3)->AppendNext(a3, 3);
-	auto a3e = new Edge(a3, 0); a3e->AppendNext(a2, 3)->AppendNext(a4, 3)->AppendNext(b1, 4)->AppendNext(b3, 4);
-	auto a4e = new Edge(a4, 0); a4e->AppendNext(a3, 3)->AppendNext(a5, 3)->AppendNext(c1, 5)->AppendNext(b3, 5);
-	auto a5e = new Edge(a5, 0); a5e->AppendNext(a4, 3);
+	auto a1e = new LinkedListEdge(a1, 0); a1e->AppendNext(a2, 3);
+	auto a2e = new LinkedListEdge(a2, 0); a2e->AppendNext(a1, 3)->AppendNext(a3, 3);
+	auto a3e = new LinkedListEdge(a3, 0); a3e->AppendNext(a2, 3)->AppendNext(a4, 3)->AppendNext(b1, 4)->AppendNext(b3, 4);
+	auto a4e = new LinkedListEdge(a4, 0); a4e->AppendNext(a3, 3)->AppendNext(a5, 3)->AppendNext(c1, 5)->AppendNext(b3, 5);
+	auto a5e = new LinkedListEdge(a5, 0); a5e->AppendNext(a4, 3);
 
-	auto b1e = new Edge(b1, 0); b1e->AppendNext(a3, 4);
-	auto b3e = new Edge(b3, 0); b3e->AppendNext(a3, 4)->AppendNext(b4, 4)->AppendNext(a4, 5)->AppendNext(c4, 5);
-	auto b4e = new Edge(b4, 0); b4e->AppendNext(b3, 4);
+	auto b1e = new LinkedListEdge(b1, 0); b1e->AppendNext(a3, 4);
+	auto b3e = new LinkedListEdge(b3, 0); b3e->AppendNext(a3, 4)->AppendNext(b4, 4)->AppendNext(a4, 5)->AppendNext(c4, 5);
+	auto b4e = new LinkedListEdge(b4, 0); b4e->AppendNext(b3, 4);
 
-	auto c1e = new Edge(c1, 0); c1e->AppendNext(a4, 5);
-	auto c4e = new Edge(c4, 0); c4e->AppendNext(b3, 5);
+	auto c1e = new LinkedListEdge(c1, 0); c1e->AppendNext(a4, 5);
+	auto c4e = new LinkedListEdge(c4, 0); c4e->AppendNext(b3, 5);
 
 	//Add Vertexes
-	graph.AddVertex(a1);
-	graph.AddVertex(a2);
-	graph.AddVertex(a3);
-	graph.AddVertex(a4);
-	graph.AddVertex(a5);
-	graph.AddVertex(b1);
-	graph.AddVertex(b3);
-	graph.AddVertex(b4);
-	graph.AddVertex(c1);
-	graph.AddVertex(c4);
+	graph->AddVertex(a1);
+	graph->AddVertex(a2);
+	graph->AddVertex(a3);
+	graph->AddVertex(a4);
+	graph->AddVertex(a5);
+	graph->AddVertex(b1);
+	graph->AddVertex(b3);
+	graph->AddVertex(b4);
+	graph->AddVertex(c1);
+	graph->AddVertex(c4);
 
 	//Add Edges
-	graph.AddLinkedEdge(a1e);
-	graph.AddLinkedEdge(a2e);
-	graph.AddLinkedEdge(a3e);
-	graph.AddLinkedEdge(a4e);
-	graph.AddLinkedEdge(a5e);
+	graph->AddLinkedEdge(a1e);
+	graph->AddLinkedEdge(a2e);
+	graph->AddLinkedEdge(a3e);
+	graph->AddLinkedEdge(a4e);
+	graph->AddLinkedEdge(a5e);
 
-	graph.AddLinkedEdge(b1e);
-	graph.AddLinkedEdge(b3e);
-	graph.AddLinkedEdge(b4e);
+	graph->AddLinkedEdge(b1e);
+	graph->AddLinkedEdge(b3e);
+	graph->AddLinkedEdge(b4e);
 
-	graph.AddLinkedEdge(c1e);
-	graph.AddLinkedEdge(c4e);
+	graph->AddLinkedEdge(c1e);
+	graph->AddLinkedEdge(c4e);
+
+	return graph;
+}
+
+void TestGraph() {
+	auto graph = BuildGraph();
+
+	graph->FindSP("a1", "a4");
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单

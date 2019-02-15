@@ -1,25 +1,15 @@
 #include "pch.h"
 #include "Edge.h"
 
-
-Edge::Edge()
+Edge::Edge(Vertex* start, Vertex* end, double distance)
 {
-	Distance = 0.0;
-}
-
-Edge::Edge(Vertex * point, double distance)
-{
-	this->Point = point;
+	this->Start = start;
+	this->End = end;
 	this->Distance = distance;
+	this->MinDistance = -1;
 }
 
 
 Edge::~Edge()
 {
-}
-
-Edge* Edge::AppendNext(Vertex * point, double distance)
-{
-	this->Next = new Edge(point, distance);
-	return this->Next;
 }
