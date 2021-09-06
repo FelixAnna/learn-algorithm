@@ -15,31 +15,27 @@ namespace AlgorithmLibrary.DivideAndConquer
             }
 
             //get random pivot
-            var index = new Random().Next(start, end);
-            var pivot = array[index];
+            var pivotIndex = new Random().Next(start, end);
+            var pivot = array[pivotIndex];
 
             //swap pivot to the first
-            var temp = array[start];
-            array[start] = pivot;
-            array[index] = temp;
+            Swap(array, start, pivotIndex);
 
             var i = start;
             for (var j = start + 1; j <= end; j++)
             {
                 if (array[j].CompareTo(pivot) <= 0)
                 {
-                    temp = array[i + 1];
-                    array[i + 1] = array[j];
-                    array[j] = temp;
+                    //swap j and the element after startindex i;
+                    Swap(array, i+1, j);
                     i++;
                 }
             }
 
             if (i != start)
             {
-                temp = array[i];
-                array[i] = array[start];
-                array[start] = temp;
+                //swap
+                Swap(array, i, start);
 
                 Sort(array, start, i - 1);
                 Sort(array, i + 1, end);
@@ -56,5 +52,11 @@ namespace AlgorithmLibrary.DivideAndConquer
         {
             return Sort(array, 0, array.Length - 1);
         }
+		
+		public void Swap(T[] array, int i, int j){
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
     }
 }

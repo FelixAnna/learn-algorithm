@@ -23,8 +23,11 @@ namespace AlgorithmLibrary.DivideAndConquer
                 return default(T);
             }
 
+			//get random pivot
             int indexOfPivot = new Random().Next(endIndex - startIndex) + startIndex;
-            T temp = array[startIndex];
+            
+			//swap element of start and pivot
+			T temp = array[startIndex];
             array[startIndex] = array[indexOfPivot];
             array[indexOfPivot] = temp;
 
@@ -33,17 +36,16 @@ namespace AlgorithmLibrary.DivideAndConquer
             {
                 if (array[j].CompareTo(array[startIndex]) <= 0)
                 {
-                    temp = array[++i];
-                    array[i] = array[j];
-                    array[j] = temp;
+                    //swap j and the element after startindex i;
+                    Swap(array, i+1, j);
+                    i++;
                 }
             }
 
             if (i != startIndex)
             {
-                temp = array[i];
-                array[i] = array[startIndex];
-                array[startIndex] = temp;
+                //swap startindex and last swapped index (latest i)
+                Swap(array, i, startIndex);
 
                 if (i == rank - 1)
                 {
@@ -70,5 +72,12 @@ namespace AlgorithmLibrary.DivideAndConquer
                 }
             }
         }
+		
+		
+		private void Swap(T[] array, int i, int j){
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
     }
 }

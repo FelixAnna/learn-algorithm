@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace ConsoleApp
 {
+    using AlgorithmLibrary.DynamicProgramming;
     using Entity;
     using System.Linq;
     using System.Numerics;
@@ -15,6 +16,29 @@ namespace ConsoleApp
     {
         public static void Main(string[] args)
         {
+            CutRodProblem cutRodProblem = new();
+            cutRodProblem.FindBestCutStatergy(20);
+            StepProblem sp = new StepProblem();
+            var result = sp.FindWays(720);
+            Fibonacci fb = new Fibonacci();
+
+            var sample = new[] { 1, 2, 10, 20, 30, 35 };
+
+
+            Stopwatch sw = new Stopwatch();
+            foreach (var num in sample)
+            {
+                sw.Restart();
+                var value = fb.Calculate(num);
+                sw.Stop();
+                Console.WriteLine($"Calculate: {value},{sw.ElapsedMilliseconds}");
+
+                sw.Restart();
+                var value2 = fb.CalculateUp(num);
+                sw.Stop();
+                Console.WriteLine($"CalculateUp: {value2},{sw.ElapsedMilliseconds}");
+            }
+
             int arrayLength = 20;
             var array = new int[arrayLength];
             for (int i = 0; i < arrayLength; i++)
