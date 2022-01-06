@@ -34,3 +34,7 @@ a problem can be calculated from it sub-problems (from one or many of them): sto
 3. 上台阶问题：n 个台阶，一次只有1-x步走法，有多少种走法。
 
 ## Hash Algorithms
+
+## Tree
+
+## Greedy Algoritm （贪心算法）
