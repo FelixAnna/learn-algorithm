@@ -20,17 +20,18 @@ import (
 
 //action: 1 - sync + chan, 2 - buffered chan, 3 - select on multiple chan, 4 - chan & chan
 func TestChan(n int, action int) {
+	fmt.Println("TestChan:", n, action)
 	switch action {
 	case 1:
 		{
 			done := make(chan bool)
 			go func() {
-				TestGoRoutineWaitGroup(n)
+				goRoutineWaitGroup(n)
 				done <- true
 			}()
 
 			go func() {
-				TestGoRoutineChan(n)
+				goRoutineChan(n)
 				done <- true
 			}()
 
@@ -46,10 +47,12 @@ func TestChan(n int, action int) {
 	default:
 		fmt.Println("not support")
 	}
+
+	fmt.Println("done")
 }
 
 //wait for goroutine with sync.WaitGroup: Add(x), Done(), Wait()
-func TestGoRoutineWaitGroup(n int) {
+func goRoutineWaitGroup(n int) {
 	wg := sync.WaitGroup{}
 	wg.Add(1) //wait for 1 goroutine
 
@@ -78,7 +81,7 @@ func fibonacci(n int64) int64 {
 }
 
 //wait for goroutine with chan: goroutine - chan<-val, main routine - <- chan, main routine will wait for chan output
-func TestGoRoutineChan(n int) {
+func goRoutineChan(n int) {
 	done := make(chan bool)
 	go chanTest(n, done)
 

@@ -9,6 +9,8 @@ import (
 func main() {
 	fmt.Println("start")
 
-	lib.TestQuickSort(8000000)
+	//lib.TestChan(40, 2)
+	//lib.TestFib(100, 1)
+	lib.TestSort(8000000, 1)
 	//fmt.Scanln()
 }
