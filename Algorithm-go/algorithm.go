@@ -11,6 +11,6 @@ func main() {
 
 	//lib.TestChan(40, 2)
 	//lib.TestFib(100, 1)
-	lib.TestSort(8000000, 1)
+	lib.TestSort(8000000, 5)
 	//fmt.Scanln()
 }

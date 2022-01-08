@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 )
@@ -10,6 +11,9 @@ import (
 ways to sort:
 	1. quick sort - O(nlogn) , sort in original array, less memory cost
 	2. merge sort - O(nlogn) , need more memory
+	3. counting sort - O(n+k) , for elements all in [m, n],  m and n are
+	4. radix sort - O(n*k) , when all elements are positive, k normally not very large (like 32 / 4)
+	5. bucket sort - O(n*k), split element in n bucket, then use counting sort to sort each bucket, finally append all of them
 */
 func TestSort(n int, action int) {
 	fmt.Println("TestSort:", n, action)
@@ -25,6 +29,22 @@ func TestSort(n int, action int) {
 	case 2:
 		{
 			arr = mergeSort(arr)
+		}
+	case 3:
+		{
+			bottom, up := 10000, 35000
+			arr = seedWithinRange(n, bottom, up)
+			//fmt.Println(arr)
+			arr = countingSort(arr, bottom, up)
+			//fmt.Println(arr)
+		}
+	case 4:
+		{
+			arr = radixSort(arr)
+		}
+	case 5:
+		{
+			arr = bucketSort(arr)
 		}
 	default:
 		fmt.Println("not support")
@@ -168,6 +188,116 @@ func merge(arr1, arr2 []int) []int {
 	return result
 }
 
+/* counting sort:
+suppose all elements in an array are in a relative small range 0~k， then we can use counting sort to sort the array in O(n+k)
+steps:
+	1. define counting array[k+1] : ca[k+1]     				example: [0, 0, 0]
+	2. scan all elements in input array, set: ca[input[i]]++    example: [1, 3, 2]
+	3. scan ca from 0 - k: make ca[i]=ca[i-1] + ca[i] 			example: [1, 4, 6]
+	4. create a new array as the input array len: result array;
+	5. scan input array (from last to first), result[ca[input[i]] - 1] = input[i]， set: ca[input[i]] = ca[input[i]] - 1
+*/
+func countingSort(arr []int, bottom, up int) []int {
+	ca := make([]int, up-bottom+1)
+	for i := 0; i < len(arr); i++ {
+		ca[arr[i]-bottom]++
+	}
+
+	for i := 1; i < len(ca); i++ {
+		ca[i] += ca[i-1]
+	}
+
+	result := make([]int, len(arr))
+	for i := len(arr) - 1; i >= 0; i-- {
+		result[ca[arr[i]-bottom]-1] = arr[i]
+		ca[arr[i]-bottom] -= 1
+	}
+
+	return result
+}
+
+/* radix sort:
+when element are positive numbers and distributed a little evenly in a large range, we can use radix sort:
+step:
+	1. define the max bit in numbers, and the base bit we use for split
+	2. get the base digit we used for counting: baseDigit = 1 << baseBit
+	3. loop for largest maxBit/baseBit times:
+		a. sort element on k th digit with counting sort
+		b. copy sorted array to original array as new input for next round loop
+*/
+func radixSort(arr []int) []int {
+	result := make([]int, len(arr))
+	baseBit := 4
+	maxBit := 32
+	baseDigit := 1 << 8
+	for r := 0; r < maxBit/baseBit; r++ {
+		shift := math.Pow(float64(baseDigit), float64(r))
+		count := make([]int, baseDigit)
+
+		for i := 0; i < len(arr); i++ {
+			count[arr[i]/int(shift)%baseDigit]++
+		}
+
+		for i := 1; i < len(count); i++ {
+			count[i] += count[i-1]
+		}
+		//fmt.Println(count)
+		for i := len(arr) - 1; i >= 0; i-- {
+			result[count[arr[i]/int(shift)%baseDigit]-1] = arr[i]
+			count[arr[i]/int(shift)%baseDigit]--
+		}
+
+		for i := 0; i < len(arr); i++ {
+			arr[i] = result[i]
+		}
+		//fmt.Println(result)
+	}
+
+	return result
+}
+
+/* bucket sort:
+split element in many buckets, then sort for every buckets, final merge all buckets
+*/
+func bucketSort(arr []int) []int {
+	min, max := arr[0], arr[0]
+
+	for i := 1; i < len(arr); i++ {
+		if arr[i] > max {
+			max = arr[i]
+		}
+
+		if arr[i] < min {
+			min = arr[i]
+		}
+	}
+
+	bucketCount := 11
+	delta := (max-min)/(bucketCount-1) + 1
+	bucket := make([][]int, bucketCount)
+	var index map[int]int = make(map[int]int)
+	for i := 0; i < bucketCount; i++ {
+		index[i] = 0
+		bucket[i] = make([]int, 0)
+	}
+
+	for i := 0; i < len(arr); i++ {
+		bucketIndex := (arr[i] - min) / delta
+
+		bucket[bucketIndex] = append(bucket[bucketIndex], arr[i])
+		index[bucketIndex]++
+	}
+
+	result := make([]int, 0)
+	for i := 0; i < bucketCount; i++ {
+		if index[i] > 0 {
+			result = append(result, countingSort(bucket[i], min+i*delta, min+i*delta+delta)...)
+		}
+	}
+
+	return result
+}
+
 func seed(n int) (arr []int) {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
@@ -176,5 +306,15 @@ func seed(n int) (arr []int) {
 		arr = append(arr, r1.Intn(i+n))
 	}
 
+	return
+}
+
+func seedWithinRange(n int, bottom, up int) (arr []int) {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+
+	for i := 0; i < n; i++ {
+		arr = append(arr, r1.Intn(up-bottom)+bottom)
+	}
 	return
 }
