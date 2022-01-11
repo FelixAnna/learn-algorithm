@@ -11,7 +11,7 @@ import (
 ways to sort:
 	1. quick sort - O(nlogn) , sort in original array, less memory cost
 	2. merge sort - O(nlogn) , need more memory
-	3. counting sort - O(n+k) , for elements all in [m, n],  m and n are
+	3. counting sort - O(n+k) , for elements all in [m, n],  m and n are close numbers
 	4. radix sort - O(n*k) , when all elements are positive, k normally not very large (like 32 / 4)
 	5. bucket sort - O(n*k), split element in n bucket, then use counting sort to sort each bucket, finally append all of them
 */
@@ -235,7 +235,8 @@ func radixSort(arr []int) []int {
 		count := make([]int, baseDigit)
 
 		for i := 0; i < len(arr); i++ {
-			count[arr[i]/int(shift)%baseDigit]++
+			countIndex := getCount(arr, i, int(shift), baseDigit) //get rank of special position
+			count[countIndex]++
 		}
 
 		for i := 1; i < len(count); i++ {
@@ -243,8 +244,9 @@ func radixSort(arr []int) []int {
 		}
 		//fmt.Println(count)
 		for i := len(arr) - 1; i >= 0; i-- {
-			result[count[arr[i]/int(shift)%baseDigit]-1] = arr[i]
-			count[arr[i]/int(shift)%baseDigit]--
+			countIndex := getCount(arr, i, int(shift), baseDigit)
+			result[count[countIndex]-1] = arr[i]
+			count[countIndex]--
 		}
 
 		for i := 0; i < len(arr); i++ {
@@ -256,8 +258,17 @@ func radixSort(arr []int) []int {
 	return result
 }
 
+func getCount(arr []int, i, shift, baseDigit int) int {
+	return arr[i] / int(shift) % baseDigit
+}
+
 /* bucket sort:
-split element in many buckets, then sort for every buckets, final merge all buckets
+when all elements are in a not very large range, we can split them in some sub-range - subset of the range, and then sort and merge
+	1. find the max and min element in buckets;
+	2. define bucket number, and calculate bucket range for every bucket;
+	3. loop array, find the bucket for every element;
+	4. loop buckets, sort for every buckets;
+	5. merge all bucket and get the sorted results.
 */
 func bucketSort(arr []int) []int {
 	min, max := arr[0], arr[0]
