@@ -85,9 +85,20 @@ if start>=end, no need to sort(at most 1 element)
 */
 func quicksort(arr []int, start, end int) {
 
-	//only have one element or no element
-	if start >= end {
+	//only have one element or no element : no need to sort
+	if start > end {
 		return
+	}
+
+	partitionIndex := randQuickSort(arr, start, end)
+
+	quicksort(arr, start, partitionIndex-1)
+	quicksort(arr, partitionIndex+1, end)
+}
+
+func randQuickSort(arr []int, start, end int) int {
+	if start == end { //no need to search
+		return start
 	}
 
 	pivotIndex := rand.Intn(end-start) + start
@@ -104,8 +115,7 @@ func quicksort(arr []int, start, end int) {
 
 	swap(arr, start, partitionIndex)
 
-	quicksort(arr, start, partitionIndex-1)
-	quicksort(arr, partitionIndex+1, end)
+	return partitionIndex
 }
 
 func swap(arr []int, start, target int) {
@@ -242,7 +252,7 @@ func radixSort(arr []int) []int {
 		for i := 1; i < len(count); i++ {
 			count[i] += count[i-1]
 		}
-		//fmt.Println(count)
+
 		for i := len(arr) - 1; i >= 0; i-- {
 			countIndex := getCount(arr, i, int(shift), baseDigit)
 			result[count[countIndex]-1] = arr[i]
@@ -252,7 +262,6 @@ func radixSort(arr []int) []int {
 		for i := 0; i < len(arr); i++ {
 			arr[i] = result[i]
 		}
-		//fmt.Println(result)
 	}
 
 	return result

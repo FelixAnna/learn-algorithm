@@ -2,7 +2,6 @@ package lib
 
 import (
 	"fmt"
-	"math/rand"
 	"time"
 )
 
@@ -41,7 +40,7 @@ func TestSearch(n int, action int) {
 	cost := time.Now().UnixMilli() - start.UnixMilli()
 	fmt.Println("cost: ", cost)
 
-	//fmt.Println("result: ", arr, index, element)
+	fmt.Println("result: ", arr, index, element)
 
 	fmt.Println("search, checking")
 	if index >= 0 && arr[index] != element {
@@ -76,25 +75,11 @@ search the min nth [1, len(arr)] element in array (unsorted):
 */
 func minNthSearch(arr []int, n int, start, end int) (int, int) {
 	//skip if nth is not in range [0, len(arr)]
-	if n-1 > end || n-1 < start {
+	if start > end {
 		return -1, -1
 	}
 
-	pivotIndex := start //if only have one element
-	if start != end {
-		pivotIndex = rand.Intn(end-start) + start
-	}
-
-	swap(arr, start, pivotIndex)
-	partitionIndex := start //record pivot location in array
-	for i := start + 1; i <= end; i++ {
-		if arr[i] <= arr[start] {
-			partitionIndex += 1
-			swap(arr, i, partitionIndex)
-		}
-	}
-
-	swap(arr, start, partitionIndex)
+	partitionIndex := randQuickSort(arr, start, end)
 
 	//fmt.Println(arr, pivotIndex, partitionIndex, n)
 	switch {

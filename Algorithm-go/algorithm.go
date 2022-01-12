@@ -11,6 +11,6 @@ func main() {
 
 	//lib.TestChan(40, 2)
 	//lib.TestFib(100, 1)
-	lib.TestSearch(500, 3)
+	lib.TestSearch(8, 2)
 	//fmt.Scanln()
 }
