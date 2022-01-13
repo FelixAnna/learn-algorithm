@@ -8,6 +8,7 @@ import (
 find the smallest element in an array
 */
 func FindMin(arr []int) (index, min int) {
+	index = -1
 	min = arr[0]
 	for i := 1; i < len(arr); i++ {
 		if arr[i] < min {
@@ -23,6 +24,7 @@ func FindMin(arr []int) (index, min int) {
 find the largest element in an array
 */
 func FindMax(arr []int) (index, max int) {
+	index = -1
 	max = arr[0]
 	for i := 1; i < len(arr); i++ {
 		if arr[i] > max {
@@ -44,7 +46,11 @@ search the min nth [1, len(arr)] element in array (unsorted):
 	b. if greater, search nTh in the left slice branch
 	c. if smaller, search n - position th elements in the right slice
 */
-func FindNthMin(arr []int, n int, start, end int) (int, int) {
+func FindNthMin(arr []int, n int) (int, int) {
+	return findNthMinInternal(arr, n, 0, len(arr)-1)
+}
+
+func findNthMinInternal(arr []int, n int, start, end int) (int, int) {
 	//skip if nth is not in range [0, len(arr)]
 	if start > end {
 		return -1, -1
@@ -57,9 +63,9 @@ func FindNthMin(arr []int, n int, start, end int) (int, int) {
 	case partitionIndex == n-1:
 		return partitionIndex, arr[partitionIndex]
 	case partitionIndex > n-1:
-		return FindNthMin(arr, n, start, partitionIndex-1)
+		return findNthMinInternal(arr, n, start, partitionIndex-1)
 	default:
-		return FindNthMin(arr, n, partitionIndex+1, end)
+		return findNthMinInternal(arr, n, partitionIndex+1, end)
 	}
 }
 

@@ -30,7 +30,7 @@ func TestSearch(n int, action int) {
 		}
 	case 2:
 		{
-			index, element = FindNthMin(arr, 5, 0, len(arr)-1)
+			index, element = FindNthMin(arr, 5)
 		}
 	case 3:
 		{
