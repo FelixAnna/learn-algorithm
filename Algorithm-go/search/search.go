@@ -6,6 +6,8 @@ import (
 
 /* FindMin
 find the smallest element in an array
+
+return min value and it index in array
 */
 func FindMin(arr []int) (index, min int) {
 	index = -1
@@ -22,6 +24,8 @@ func FindMin(arr []int) (index, min int) {
 
 /* FindMax
 find the largest element in an array
+
+return max value and it index in array
 */
 func FindMax(arr []int) (index, max int) {
 	index = -1
@@ -45,6 +49,8 @@ search the min nth [1, len(arr)] element in array (unsorted):
 	a. if the posistion is desired rank, just return
 	b. if greater, search nTh in the left slice branch
 	c. if smaller, search n - position th elements in the right slice
+
+return nth min value and it index in array
 */
 func FindNthMin(arr []int, n int) (int, int) {
 	return findNthMinInternal(arr, n, 0, len(arr)-1)
@@ -77,6 +83,8 @@ can search in a sorted array;
 	b. if greater than target, then search in the left sub-slice
 	c. if smaller than target, then search in the right sub-slice
 	d. if array is empty before find one, return -1 (not found)
+
+return index in array
 */
 func BinarySearch(arr []int, element int) int {
 	if len(arr) == 0 {

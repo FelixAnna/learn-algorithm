@@ -10,6 +10,8 @@ steps:
 	3. scan ca from 0 - k: make ca[i]=ca[i-1] + ca[i] 			example: [1, 4, 6]
 	4. create a new array as the input array len: result array;
 	5. scan input array (from last to first), result[ca[input[i]] - 1] = input[i]， set: ca[input[i]] = ca[input[i]] - 1
+
+return new sorted array
 */
 func CountingSort(arr []int, bottom, up int) []int {
 	ca := make([]int, up-bottom+1)
@@ -38,6 +40,8 @@ step:
 	3. loop for largest maxBit/baseBit times:
 		a. sort element on k th digit with counting sort
 		b. copy sorted array to original array as new input for next round loop
+
+return new sorted array
 */
 func RadixSort(arr []int) []int {
 	result := make([]int, len(arr))
@@ -82,6 +86,8 @@ when all elements are in a not very large range, we can split them in some sub-r
 	3. loop array, find the bucket for every element;
 	4. loop buckets, sort for every buckets;
 	5. merge all bucket and get the sorted results.
+
+return new sorted array
 */
 func BucketSort(arr []int) []int {
 	min, max := arr[0], arr[0]

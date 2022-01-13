@@ -4,6 +4,11 @@ import (
 	"github.com/felixanna/algorithm-go/sort"
 )
 
+type cutSolution struct {
+	profit    float64
+	stratergy int
+}
+
 /* cut rod problem:
 given a cut stratergy with profit, find the cut stratergy with maxinum profit
 	1. define a map for the maxinum profit , cut stratergies for a varible x
@@ -13,11 +18,6 @@ given a cut stratergy with profit, find the cut stratergy with maxinum profit
 	3. return f(n), and path if necessary
 
 */
-type cutSolution struct {
-	profit    float64
-	stratergy int
-}
-
 func CutRod(n int, st map[int]float64) ([]int, float64) {
 	bst := make(map[int]*cutSolution)
 

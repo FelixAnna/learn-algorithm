@@ -43,6 +43,7 @@ use a random picked element as pivot, sort one round for this pivot:
 		c. if bigger, do nothing	 												e3>pivot  => ## [pivot, e2  (old / new partition index), e3, ... , ei]
 
 	4. swap start（pivot) with partitionIndex, (we find pivot's real location, now left sides all smaller than pivot, right side all bigger than pivot)
+return the random pivot partitionIndex in array
 */
 func RandQuickSortOneTime(arr []int, start, end int) int {
 	if start == end { //no need to search

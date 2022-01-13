@@ -10,6 +10,8 @@ package sort
 	b. insert the smaller one to slice
 	c. smaller one related array index +1 (ready to pick next in the smaller one array)
 	d. if any array is empty, append another array to result slice
+
+return new sorted array
 */
 func MergeSort(arr []int) []int {
 	arrLen := len(arr)
