@@ -16,8 +16,6 @@ import (
 	"fmt"
 	"sync"
 	"time"
-
-	"github.com/felixanna/algorithm-go/lib"
 )
 
 //action: 1 - sync + chan, 2 - buffered chan, 3 - select on multiple chan, 4 - chan & chan
@@ -62,16 +60,10 @@ func goRoutineWaitGroup(n int) {
 	wg.Wait()
 }
 
-func waitGroupTest(wg *sync.WaitGroup, n int) []int64 {
+func waitGroupTest(wg *sync.WaitGroup, n int) {
 	defer wg.Done()
 
-	results := make([]int64, n)
-	for i := 0; i < n; i++ {
-		results[i] = lib.Fibonacci(int64(i))
-		fmt.Println("waitGroup:", i, results[i])
-	}
-
-	return results
+	time.Sleep(time.Second * time.Duration(n))
 }
 
 //wait for goroutine with chan: goroutine - chan<-val, main routine - <- chan, main routine will wait for chan output
@@ -84,33 +76,9 @@ func goRoutineChan(n int) {
 
 func chanTest(n int, done chan<- bool) {
 
-	if n <= 1 {
-		fmt.Println("chan:", 0, 1)
-		fmt.Println("chan:", 1, 1)
-		return
-	}
-
-	results := make([]int64, n)
-
-	for i := 0; i < n; i++ {
-		if i <= 1 {
-			results[i] = 1
-			continue
-		}
-
-		results[i] = fibonacciBottomUp(int64(i), results)
-		fmt.Println("chan:", i, results[i])
-	}
+	time.Sleep(time.Second * time.Duration(n))
 
 	done <- true
-}
-
-func fibonacciBottomUp(n int64, results []int64) int64 {
-	if n <= 1 {
-		return 1
-	}
-
-	return results[n-1] + results[n-2]
 }
 
 func bufferedChan(n int) {

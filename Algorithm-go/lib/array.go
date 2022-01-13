@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"errors"
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -26,10 +28,19 @@ func SeedWithinRange(n int, bottom, up int) (arr []int) {
 	return
 }
 
-func Fibonacci(n int64) int64 {
-	if n <= 1 {
-		return 1
+func CheckSorted(arr []int, n int) error {
+	//fmt.Println("sorted, checking")
+	if len(arr) != n {
+		err := fmt.Sprintln("Length incorrect:", len(arr), n)
+		return errors.New(err)
 	}
 
-	return Fibonacci(n-1) + Fibonacci(n-2)
+	for i := 1; i < n; i++ {
+		if arr[i] < arr[i-1] {
+			err := fmt.Sprintln("Failed:", arr[i-1], arr[i])
+			return errors.New(err)
+		}
+	}
+
+	return nil
 }

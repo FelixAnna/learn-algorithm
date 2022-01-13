@@ -54,16 +54,8 @@ func TestSort(n int, action int) {
 	fmt.Println("cost: ", cost)
 
 	fmt.Println("sorted, checking")
-	if len(arr) != n {
-		fmt.Println("Length incorrect:", len(arr), n)
-		return
-	}
-
-	for i := 1; i < n; i++ {
-		if arr[i] < arr[i-1] {
-			fmt.Println("Failed:", arr[i-1], arr[i])
-			return
-		}
+	if err := lib.CheckSorted(arr, n); err != nil {
+		fmt.Println(err)
 	}
 
 	fmt.Println("done")

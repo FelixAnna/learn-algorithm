@@ -1,16 +1,30 @@
 package fib
 
-import "github.com/felixanna/algorithm-go/lib"
-
-func Recursive(n int64) int64 {
+func FibRecursive(n int) int64 {
 	if n <= 1 {
 		return 1
 	}
 
-	return lib.Fibonacci(n-1) + lib.Fibonacci(n-2)
+	return FibRecursive(n-1) + FibRecursive(n-2)
 }
 
-func BottomUp(n int64, results []int64) int64 {
+func FibBottomUp(n int) []int64 {
+	results := make([]int64, n+1)
+
+	for i := 0; i <= n; i++ {
+		if i <= 1 {
+			results[i] = 1
+			continue
+		}
+
+		results[i] = fibBottomUpInternal(int64(i), results)
+		//fmt.Println("chan:", i, results[i])
+	}
+
+	return results
+}
+
+func fibBottomUpInternal(n int64, results []int64) int64 {
 	if n <= 1 {
 		return 1
 	}

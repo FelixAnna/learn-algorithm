@@ -16,18 +16,14 @@ func TestFib(n int, action int) {
 	switch action {
 	case 1:
 		{
-			results := make([]int64, n)
-			for i := 0; i < n; i++ { //n level
-				results[i] = BottomUp(int64(i), results)
-			}
-
+			results := FibBottomUp(n)
 			fmt.Println(results[n-1] + results[n-2])
 		}
 	case 2:
 		{
 			done := make(chan bool)
 			go func() {
-				a := Recursive(int64(n)) // 0 ~ n : n+1 level
+				a := FibRecursive(n) // 0 ~ n : n+1 level
 				fmt.Println(a)
 				done <- true
 			}()
