@@ -1,4 +1,4 @@
-package lib
+package fib
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ func TestFib(n int, action int) {
 		{
 			results := make([]int64, n)
 			for i := 0; i < n; i++ { //n level
-				results[i] = bottomUp(int64(i), results)
+				results[i] = BottomUp(int64(i), results)
 			}
 
 			fmt.Println(results[n-1] + results[n-2])
@@ -27,7 +27,7 @@ func TestFib(n int, action int) {
 		{
 			done := make(chan bool)
 			go func() {
-				a := recursive(int64(n)) // 0 ~ n : n+1 level
+				a := Recursive(int64(n)) // 0 ~ n : n+1 level
 				fmt.Println(a)
 				done <- true
 			}()
@@ -43,20 +43,4 @@ func TestFib(n int, action int) {
 	fmt.Println("cost: ", cost)
 
 	fmt.Println("done")
-}
-
-func recursive(n int64) int64 {
-	if n <= 1 {
-		return 1
-	}
-
-	return fibonacci(n-1) + fibonacci(n-2)
-}
-
-func bottomUp(n int64, results []int64) int64 {
-	if n <= 1 {
-		return 1
-	}
-
-	return results[n-1] + results[n-2]
 }

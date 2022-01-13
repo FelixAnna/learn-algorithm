@@ -10,12 +10,14 @@ go runtime would scheduler goroutine run on system thread damymically, it more e
 5. chan with select: if wait for multiple chan in different select branches, would run either chan is ready, usually in for loop
 6. chan with chan
 */
-package lib
+package channel
 
 import (
 	"fmt"
 	"sync"
 	"time"
+
+	"github.com/felixanna/algorithm-go/lib"
 )
 
 //action: 1 - sync + chan, 2 - buffered chan, 3 - select on multiple chan, 4 - chan & chan
@@ -65,19 +67,11 @@ func waitGroupTest(wg *sync.WaitGroup, n int) []int64 {
 
 	results := make([]int64, n)
 	for i := 0; i < n; i++ {
-		results[i] = fibonacci(int64(i))
+		results[i] = lib.Fibonacci(int64(i))
 		fmt.Println("waitGroup:", i, results[i])
 	}
 
 	return results
-}
-
-func fibonacci(n int64) int64 {
-	if n <= 1 {
-		return 1
-	}
-
-	return fibonacci(n-1) + fibonacci(n-2)
 }
 
 //wait for goroutine with chan: goroutine - chan<-val, main routine - <- chan, main routine will wait for chan output
@@ -186,7 +180,7 @@ func selectChan(n int) {
 			fmt.Println(x3, y3)
 		}
 
-		if y1 == false && y3 == false {
+		if !y1 && !y3 {
 			fmt.Println("Done")
 			break
 		}

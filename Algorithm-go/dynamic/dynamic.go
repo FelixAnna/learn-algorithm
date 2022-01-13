@@ -1,17 +1,8 @@
-package lib
+package dynamic
 
-import "fmt"
-
-func TestDynamicProgramming(n int, action int) {
-	strategies := make(map[int]float64)
-	strategies[1] = 2.5
-	strategies[2] = 5.5
-	strategies[3] = 8.05
-	strategies[5] = 15
-	st, profit := cutRod(n, strategies)
-
-	fmt.Println(n, st, profit)
-}
+import (
+	"github.com/felixanna/algorithm-go/sort"
+)
 
 /* cut rod problem:
 given a cut stratergy with profit, find the cut stratergy with maxinum profit
@@ -27,7 +18,7 @@ type cutSolution struct {
 	stratergy int
 }
 
-func cutRod(n int, st map[int]float64) ([]int, float64) {
+func CutRod(n int, st map[int]float64) ([]int, float64) {
 	bst := make(map[int]*cutSolution)
 
 	//get sorted keys
@@ -35,7 +26,7 @@ func cutRod(n int, st map[int]float64) ([]int, float64) {
 	for k := range st {
 		keys = append(keys, k)
 	}
-	quicksort(keys, 0, len(keys)-1)
+	sort.Quicksort(keys, 0, len(keys)-1)
 
 	bst[0] = &cutSolution{0, 0}
 
