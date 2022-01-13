@@ -26,7 +26,7 @@ func CutRod(n int, st map[int]float64) ([]int, float64) {
 	for k := range st {
 		keys = append(keys, k)
 	}
-	sort.Quicksort(keys, 0, len(keys)-1)
+	sort.QuickSort(keys)
 
 	bst[0] = &cutSolution{0, 0}
 

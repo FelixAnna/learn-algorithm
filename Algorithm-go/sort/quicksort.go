@@ -9,7 +9,16 @@ if start>end, no need to sort, otherwise:
 	1. use RandQuickSortOneTime to sort for one round, keep the return value partition Index
 	2. sort( arr, start, partition index - 1), sort(arr, partition index + 1, end) use RandQuickSortOneTime
 */
-func Quicksort(arr []int, start, end int) {
+func QuickSort(arr []int) {
+	//only have one element or no element : no need to sort
+	if len(arr) <= 1 {
+		return
+	}
+
+	quickSortRecursive(arr, 0, len(arr)-1)
+}
+
+func quickSortRecursive(arr []int, start, end int) {
 
 	//only have one element or no element : no need to sort
 	if start > end {
@@ -18,8 +27,8 @@ func Quicksort(arr []int, start, end int) {
 
 	partitionIndex := RandQuickSortOneTime(arr, start, end)
 
-	Quicksort(arr, start, partitionIndex-1)
-	Quicksort(arr, partitionIndex+1, end)
+	quickSortRecursive(arr, start, partitionIndex-1)
+	quickSortRecursive(arr, partitionIndex+1, end)
 }
 
 /* RandQuickSortOneTime

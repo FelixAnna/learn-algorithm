@@ -23,7 +23,7 @@ func TestSort(n int, action int) {
 	switch action {
 	case 1:
 		{
-			Quicksort(arr, 0, n-1)
+			QuickSort(arr)
 
 		}
 	case 2:
