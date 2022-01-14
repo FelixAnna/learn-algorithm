@@ -24,7 +24,6 @@ func TestSort(n int, action int) {
 	case 1:
 		{
 			QuickSort(arr)
-
 		}
 	case 2:
 		{

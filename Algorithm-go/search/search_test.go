@@ -7,7 +7,29 @@ import (
 	"github.com/felixanna/algorithm-go/sort"
 )
 
-func TestBinarySearch_Exists(t *testing.T) {
+func TestBinarySearch_Zero(t *testing.T) {
+
+	arr := make([]int, 0)
+	element := 0
+
+	index := -1
+	if index = BinarySearch(arr, element); index >= 0 {
+		t.Fail()
+	}
+}
+
+func TestBinarySearch_One(t *testing.T) {
+
+	arr := lib.Seed(1)
+	element := arr[0]
+
+	index := -1
+	if index = BinarySearch(arr, element); index < 0 {
+		t.Fail()
+	}
+}
+
+func TestBinarySearch_More(t *testing.T) {
 
 	arr := lib.Seed(100)
 	element := arr[3]

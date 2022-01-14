@@ -40,8 +40,18 @@ func TestCheckSorted_OK(t *testing.T) {
 	}
 }
 
-func TestCheckSorted_Error(t *testing.T) {
+func TestCheckSorted_WhenNotSameLength_ThenError(t *testing.T) {
 	n := 3
+	arr := []int{1, 2, 3, 2}
+	err := CheckSorted(arr, n)
+
+	if err == nil {
+		t.Fail()
+	}
+}
+
+func TestCheckSorted_WhenUnSorted_ThenError(t *testing.T) {
+	n := 4
 	arr := []int{1, 2, 3, 2}
 	err := CheckSorted(arr, n)
 
