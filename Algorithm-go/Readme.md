@@ -38,5 +38,5 @@ go tool cover -html=cover.out -o cover.html
 ### Manually Test
 update algorithm.go, and use:
 ```bash
-go run
+go run .
 ```

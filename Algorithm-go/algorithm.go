@@ -18,6 +18,6 @@ func main() {
 	dynamic.TestDynamicProgramming(4, 1)
 	dynamic.TestDynamicProgramming(5, 1)
 	dynamic.TestDynamicProgramming(6, 1)
-	dynamic.TestDynamicProgramming(7, 1)
+	dynamic.TestDynamicProgramming(700, 1)
 	//fmt.Scanln()
 }
