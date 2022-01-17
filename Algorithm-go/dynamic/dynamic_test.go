@@ -31,3 +31,21 @@ func TestCutRod_Five(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestClimbStair_One(t *testing.T) {
+	length := 1
+	nmap := climbingStair(length)
+
+	if nmap[length] != 1 {
+		t.Fail()
+	}
+}
+
+func TestClimbStair_Five(t *testing.T) {
+	length := 5
+	nmap := climbingStair(length)
+
+	if nmap[length] != 8 {
+		t.Fail()
+	}
+}
