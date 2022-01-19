@@ -1,7 +1,7 @@
 package simple
 
-/* LengthOfLongestSubstring
-find the lenght of the longest substring in a given string
+/* LengthOfLongestSubstring (without repeat)
+find the lenght of the longest substring without repeating char in a given string
 solution:
 1. define 2 pointer index (start, end) for keep boundary of latest no duplicate string area;
 2. define a map for keep every char's last index;
@@ -18,16 +18,16 @@ solution:
 */
 func LengthOfLongestSubstring(s string) int {
 	lgstLen := 0
-	mp := map[byte]int{}
+	charIndexMap := map[byte]int{}
 
 	for i, j := 0, 0; j < len(s); j++ {
-		value := s[j]
-		if index, ok := mp[value]; ok && index >= i { //duplicate in current range [i, j)
+		char := s[j]
+		if index, ok := charIndexMap[char]; ok && index >= i { //duplicate in current range [i, j)
 			i = index + 1
-			mp[value] = j
+			charIndexMap[char] = j
 			continue
 		} else {
-			mp[value] = j
+			charIndexMap[char] = j
 
 			curLen := j - i + 1
 			if curLen > lgstLen {

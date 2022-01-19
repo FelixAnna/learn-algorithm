@@ -1,6 +1,8 @@
 package simple
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestTwoSum(t *testing.T) {
 	nums := []int{2, 7, 11, 17}
@@ -59,3 +61,79 @@ func TestLengthOfLongestSubstring_Space(t *testing.T) {
 		t.Errorf("Expected: %v, actual: %v", expectLen, result)
 	}
 }
+
+func TestLongestCommonString_Symmetry(t *testing.T) {
+	str1 := "abcbde"
+	str2 := "edbcba"
+	result := LongestCommonString(str1, str2)
+	if result != "bcb" {
+		t.Fail()
+	}
+}
+
+func TestLongestCommonString_UNSymmetry(t *testing.T) {
+	str1 := "aacabdkacaa"
+	str2 := "kdacaaaa"
+	result := LongestCommonString(str1, str2)
+	if len(result) != 4 {
+		t.Fail()
+	}
+}
+
+func TestLongestCommonString_One(t *testing.T) {
+	str1 := "aacabdkacaa"
+	str2 := "1a1"
+	result := LongestCommonString(str1, str2)
+	if len(result) != 1 {
+		t.Fail()
+	}
+}
+
+func TestLongestCommonString_Empty(t *testing.T) {
+	str1 := "aacabdkacaa"
+	str2 := ""
+	result := LongestCommonString(str1, str2)
+	if len(result) != 0 {
+		t.Fail()
+	}
+}
+
+func TestLongestPalindrome_Normal(t *testing.T) {
+	val := "sadab1asd"
+	result := LongestPalindrome(val)
+	if result != "ada" {
+		t.Fail()
+	}
+}
+
+func TestLongestPalindrome_One(t *testing.T) {
+	val := "s"
+	result := LongestPalindrome(val)
+	if result != "s" {
+		t.Fail()
+	}
+}
+
+func TestConvert(t *testing.T) {
+	val :=
+		"PAYPALISHIRING"
+	result := Convert(val, 3)
+	if result !=
+		"PAHNAPLSIIGYIR" {
+		t.Fail()
+	}
+}
+
+func TestConvert_Two(t *testing.T) {
+	val :=
+		"ABCD"
+	result := Convert(val, 2)
+	if result !=
+		"ACBD" {
+		t.Fail()
+	}
+}
+
+/*P  A   H   N
+AP L S I I G
+Y  I   R*/
