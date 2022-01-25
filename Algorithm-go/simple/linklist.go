@@ -42,3 +42,64 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 	return header.Next
 }
+
+func MergeTwoLists(h1 *ListNode, h2 *ListNode) *ListNode {
+	head := &ListNode{0, nil}
+	result := head
+
+	val := 0
+	for h1 != nil || h2 != nil {
+		if h1 != nil && h2 != nil {
+			if h1.Val < h2.Val {
+				val = h1.Val
+				h1 = h1.Next
+			} else {
+				val = h2.Val
+				h2 = h2.Next
+			}
+		} else if h1 != nil {
+			val = h1.Val
+			h1 = h1.Next
+		} else if h2 != nil {
+			val = h2.Val
+			h2 = h2.Next
+		} else {
+			break
+		}
+
+		result.Next = &ListNode{val, nil}
+		result = result.Next
+	}
+
+	return head.Next
+}
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func RemoveNthFromEnd(head *ListNode, n int) *ListNode {
+	f1, f2 := head, head
+	index := n
+
+	for f1.Next != nil { //last element
+		f1 = f1.Next
+		if index == 0 {
+			f2 = f2.Next
+
+		} else {
+			index--
+		}
+	}
+
+	if index == 1 { //same as length
+		head = head.Next
+	} else {
+		f2.Next = f2.Next.Next
+	}
+
+	return head
+}

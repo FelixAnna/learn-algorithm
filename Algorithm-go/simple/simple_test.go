@@ -242,3 +242,36 @@ func TestValidMountainArray_Neg(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMergeSortedList_Ok(t *testing.T) {
+	l1 := &ListNode{1, &ListNode{2, &ListNode{4, nil}}}
+	l2 := &ListNode{1, &ListNode{3, &ListNode{4, nil}}}
+	result := MergeTwoLists(l1, l2)
+	if result.Val != 1 || result.Next.Val != 1 || result.Next.Next.Val != 2 || result.Next.Next.Next.Val != 3 || result.Next.Next.Next.Next.Val != 4 || result.Next.Next.Next.Next.Next.Val != 4 {
+		t.Fail()
+	}
+}
+
+func TestRemoveNthFromEnd_Middle(t *testing.T) {
+	l1 := &ListNode{1, &ListNode{2, &ListNode{4, nil}}}
+	result := RemoveNthFromEnd(l1, 2)
+	if result.Val != 1 || result.Next.Val != 4 || result.Next.Next != nil {
+		t.Fail()
+	}
+}
+
+func TestRemoveNthFromEnd_First(t *testing.T) {
+	l1 := &ListNode{1, &ListNode{2, &ListNode{4, nil}}}
+	result := RemoveNthFromEnd(l1, 3)
+	if result.Val != 2 || result.Next.Val != 4 || result.Next.Next != nil {
+		t.Fail()
+	}
+}
+
+func TestRemoveNthFromEnd_Last(t *testing.T) {
+	l1 := &ListNode{1, &ListNode{2, &ListNode{4, nil}}}
+	result := RemoveNthFromEnd(l1, 1)
+	if result.Val != 1 || result.Next.Val != 2 || result.Next.Next != nil {
+		t.Fail()
+	}
+}
