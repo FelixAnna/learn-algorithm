@@ -86,3 +86,106 @@ func climbingStair(n int) map[int]int {
 
 	return results
 }
+
+/* IsMatch
+Test is a string matches regular pattern: contains: .*0-9a-z only
+Solution
+As we have .* , it might not be the last part, but it can match anything, so a simple loop to check match is not feasible
+This is another dp issue, for given string s and pattern p, we can start by check s[i] matches p[j] or not,
+and save this in a 2 factor array dp[m+1][n+1], dp[0][0]=true, since empty s matches empty pattern.
+
+dp[i][j] means s[:i] matches p[:j] - 1st i-1 element matches 1st j-1 pattern
+
+1. if s[i-1] == p[j-1] : dp[i][j] = dp[i-1][j-1] && true (since last part same, if previous part match, then new part matches to new pattern)
+2. if p[j-1] == '.’ 	：dp[i][j] = dp[i-1][j-1] && true
+3. if p[j-1] == '*'
+	3.1 if p[j-2] != '.' && if s[i-1] != p[j-2] : dp[i][j] = dp[i][j-2] (consider x* as empty matching)
+
+	3.1 if p[j-2] == '.' || p[j-2] == s[i-1]  //.*  a.*
+		dp[i][j] = dp[i-1][j-2]
+	3.2
+
+*/
+func IsMatch(s string, p string) bool {
+	return false
+}
+
+/*maxArea
+give height like [1,8,6,2,5,4,8,3,7], found the max area in the lines from the height and index ()
+solution:
+the point of the solution in O(n) time is the area = width * mininum height,
+so for given two line, if one of them is shorter than another,
+we only move the shorter one so it is possible to get a longer line next time
+we hope the width is as large as possible, so loop from i=0, j=len-1
+*/
+func maxArea(height []int) int {
+	maxA := 0
+	length := len(height)
+
+	i, j := 0, length-1
+	for i < j {
+		distance := j - i
+		h := height[i]
+		if height[j] < h {
+			h = height[j]
+			j--
+		} else {
+			i++
+		}
+
+		area := distance * h
+		if area > maxA {
+			maxA = area
+		}
+	}
+
+	return maxA
+}
+
+/* ThreeSum
+find 3 different numbers (index diff), make sure they sum result is 0
+solution:
+1. sort first:
+2. loop and found any element = 0 - current elements
+3. loop for j, k := i+1, len-1, found 2 sum = elements
+	a. to remove duplicate, we need skip when arr[j] = arr[j+1] or arr[k] == arr[k-1]
+	b. if 2sum > element, then k--, to decrease
+	c. if 2sum < element, then j++, to increase
+	c. if they same, then we found the element pair, add to list, continue with j++, k--
+*/
+func ThreeSum(nums []int) [][]int {
+	sortedNums := sort.BucketSort(nums)
+
+	length := len(sortedNums)
+	results := make([][]int, 0)
+
+	for i, vx := range sortedNums {
+		vyz := 0 - vx
+		j, k := i+1, length-1
+		for j < k {
+			sumjk := sortedNums[j] + sortedNums[k]
+			switch {
+			case vyz == sumjk:
+				{
+					results = append(results, []int{i, j, k})
+					for j < k && sortedNums[j] == sortedNums[j+1] {
+						j++
+					}
+
+					for j < k && sortedNums[k] == sortedNums[k-1] {
+						k--
+					}
+
+					j++
+					k--
+				}
+			case vyz > sumjk:
+				k--
+			case vyz < sumjk:
+				j++
+			}
+		}
+	}
+
+	return results
+}

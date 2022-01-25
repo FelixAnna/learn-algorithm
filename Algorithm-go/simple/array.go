@@ -2,7 +2,10 @@ package simple
 
 import (
 	"fmt"
+	"math"
 	"strings"
+
+	"github.com/felixanna/algorithm-go/sort"
 )
 
 /* LongestPalindrome
@@ -94,6 +97,9 @@ func LongestCommonString(one, another string) string {
 	return result
 }
 
+/* ZigZag
+https://leetcode.com/problems/zigzag-conversion/
+*/
 func Convert(s string, numRows int) string {
 	if numRows == 1 {
 		return s
@@ -134,4 +140,200 @@ func getPosition(s string, i, numRows int) (int, int) {
 
 	col += unitNumbers * unitCols
 	return row, col
+}
+
+/*
+Reverse integer
+abc to cba, out of range returns 0
+*/
+func Reverse(x int) int {
+	result := 0
+
+	sign := true
+	abx := x
+	if x < 0 {
+		abx = -1 * x
+		sign = false
+	}
+
+	for abx > 0 {
+		inc := abx % 10
+
+		if sign && (math.MaxInt32-inc)/10 < result {
+			return 0
+		} else if !sign && (math.MinInt32+inc)/-10 < result {
+			return 0
+		} else {
+			result = result*10 + inc
+			abx = abx / 10
+		}
+	}
+
+	if !sign {
+		result = -1 * result
+	}
+
+	return result
+}
+
+func myAtoi(s string) int {
+	result := 0
+	//32 space,  43+, 45-, 48~57
+	sign := true
+	for i := 0; i < len(s); i++ {
+		switch {
+		case s[i] == 32:
+			break
+		case s[i] == 43:
+			sign = true
+		case s[i] == 45:
+			sign = false
+		case s[i] >= 48 && s[i] <= 57:
+			{
+				inc := int(s[i] - 48)
+
+				if sign && (math.MaxInt32-inc)/10 < result {
+					return math.MaxInt32
+				} else if !sign && (math.MinInt32+inc)/-10 < result {
+					return math.MinInt32
+				} else {
+					result = result*10 + inc
+				}
+			}
+		}
+	}
+
+	if !sign {
+		result *= -1
+	}
+
+	return result
+}
+
+/*maxArea
+give height like [1,8,6,2,5,4,8,3,7], found the max area in the lines from the height and index ()
+solution:
+the point of the solution in O(n) time is the area = width * mininum height,
+so for given two line, if one of them is shorter than another,
+we only move the shorter one so it is possible to get a longer line next time
+we hope the width is as large as possible, so loop from i=0, j=len-1
+*/
+func MaxArea(height []int) int {
+	maxA := 0
+	length := len(height)
+
+	i, j := 0, length-1
+	for i < j {
+		distance := j - i
+		h := height[i]
+		if height[j] < h {
+			h = height[j]
+			j--
+		} else {
+			i++
+		}
+
+		area := distance * h
+		if area > maxA {
+			maxA = area
+		}
+	}
+
+	return maxA
+}
+
+/* ThreeSum
+find 3 different numbers (index diff), make sure they sum result is 0
+solution:
+1. sort first:
+2. loop and found any element = 0 - current elements
+3. loop for j, k := i+1, len-1, found 2 sum = elements
+	a. to remove duplicate, we need skip when arr[j] = arr[j+1] or arr[k] == arr[k-1]
+	b. if 2sum > element, then k--, to decrease
+	c. if 2sum < element, then j++, to increase
+	c. if they same, then we found the element pair, add to list, continue with j++, k--
+*/
+func ThreeSum(nums []int) [][]int {
+	sortedNums := sort.BucketSort(nums)
+
+	length := len(sortedNums)
+	results := make([][]int, 0)
+
+	for i, vx := range sortedNums {
+		vyz := 0 - vx
+		j, k := i+1, length-1
+		for j < k {
+			sumjk := sortedNums[j] + sortedNums[k]
+			switch {
+			case vyz == sumjk:
+				{
+					results = append(results, []int{i, j, k})
+					for j < k && sortedNums[j] == sortedNums[j+1] {
+						j++
+					}
+
+					for j < k && sortedNums[k] == sortedNums[k-1] {
+						k--
+					}
+
+					j++
+					k--
+				}
+			case vyz > sumjk:
+				k--
+			case vyz < sumjk:
+				j++
+			}
+		}
+	}
+
+	return results
+}
+
+/* IsPalindrome
+the ideal is we can reverse the number anc compare,
+but a more effcient way is to just reverse half of the number,
+and only compare the 2 half should be same or diff in 10 times
+*/
+func IsPalindrome(x int) bool {
+	if x < 0 {
+		return false
+	}
+
+	reverse := 0
+	remain := x
+	for remain > reverse {
+		reverse = reverse*10 + remain%10
+		remain = remain / 10
+	}
+
+	fmt.Println(reverse, remain)
+	return (reverse == remain) || (remain == reverse/10)
+}
+
+func ValidMountainArray(arr []int) bool {
+	if len(arr) <= 2 || arr[0] >= arr[1] {
+		return false
+	}
+
+	turn := 0
+loop:
+	for i := 1; i < len(arr); i++ {
+		switch {
+		case arr[i] == arr[i-1]:
+			return false
+
+		case arr[i] > arr[i-1] && turn == 0: //increase
+			continue loop
+		case arr[i] < arr[i-1] && turn == 0: //start decrease
+			turn += 1
+			continue loop
+		case arr[i] < arr[i-1] && turn == 1: //decrease
+			continue loop
+		default:
+			return false
+		}
+	}
+
+	return turn == 1
 }

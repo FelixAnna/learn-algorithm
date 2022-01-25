@@ -134,6 +134,111 @@ func TestConvert_Two(t *testing.T) {
 	}
 }
 
-/*P  A   H   N
-AP L S I I G
-Y  I   R*/
+func TestReverse_Positive(t *testing.T) {
+	val := 123
+	result := Reverse(val)
+
+	if result != 321 {
+		t.Fail()
+	}
+}
+
+func TestReverse_Negative(t *testing.T) {
+	val := -123
+	result := Reverse(val)
+
+	if result != -321 {
+		t.Fail()
+	}
+}
+
+func TestReverse_Edge(t *testing.T) {
+	val := -2147483648
+	result := Reverse(val)
+
+	if result != 0 {
+		t.Fail()
+	}
+}
+
+func TestIsPalindrome_Pos(t *testing.T) {
+	num := 121
+	result := IsPalindrome(num)
+	if !result {
+		t.Fail()
+	}
+}
+
+func TestIsPalindrome_NonPalin(t *testing.T) {
+	num := 123
+	result := IsPalindrome(num)
+	if result {
+		t.Fail()
+	}
+}
+
+func TestIsPalindrome_Neg(t *testing.T) {
+	num := -121
+	result := IsPalindrome(num)
+	if result {
+		t.Fail()
+	}
+}
+
+func TestMaxArea_Multiple(t *testing.T) {
+	height := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
+	result := MaxArea(height)
+	if result != 49 {
+		t.Fail()
+	}
+}
+
+func TestMaxArea_One(t *testing.T) {
+	height := []int{1, 1}
+	result := MaxArea(height)
+	if result != 1 {
+		t.Fail()
+	}
+}
+func Test3Sum_Ok(t *testing.T) {
+	nums := []int{-1, 0, 1, 2, -1, -4}
+	result := ThreeSum(nums)
+
+	if len(result) != 2 {
+		t.Fail()
+	}
+}
+
+func TestLetterCombinations_Ok(t *testing.T) {
+	digits := "23"
+	results := LetterCombinations(digits)
+
+	if len(results) != 9 {
+		t.Fail()
+	}
+}
+
+func TestLetterCombinations_Empty(t *testing.T) {
+	digits := ""
+	results := LetterCombinations(digits)
+
+	if len(results) != 0 {
+		t.Fail()
+	}
+}
+
+func TestValidMountainArray_OK(t *testing.T) {
+	arr := []int{1, 2, 3, 2}
+	result := ValidMountainArray(arr)
+	if !result {
+		t.Fail()
+	}
+}
+
+func TestValidMountainArray_Neg(t *testing.T) {
+	arr := []int{1, 2, 3, 3}
+	result := ValidMountainArray(arr)
+	if result {
+		t.Fail()
+	}
+}

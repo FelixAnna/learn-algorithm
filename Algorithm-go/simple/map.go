@@ -78,3 +78,50 @@ func WordPattern(pattern string, s string) bool {
 
 	return true
 }
+
+func LetterCombinations(digits string) []string {
+	results := make([]string, 0)
+	if len(digits) == 0 {
+		return results
+	}
+
+	/*
+	   1. initial num -> map[num][]string mappings
+	   2. loop: calculate num+x mappings -> map[numx][]string
+	   3. return map[digits]
+	*/
+
+	mappings := map[string][]string{
+		//"0": {"0"},
+		//"1": {"1"},
+		"2": {"a", "b", "c"},
+		"3": {"d", "e", "f"},
+		"4": {"g", "h", "i"},
+		"5": {"j", "k", "l"},
+		"6": {"m", "n", "o"},
+		"7": {"p", "q", "r", "s"},
+		"8": {"t", "u", "v"},
+		"9": {"w", "x", "y", "z"},
+	}
+
+	for i := 1; i < len(digits); i++ {
+		key := digits[:i+1]
+		if _, ok := mappings[key]; !ok {
+			combine(digits[:i], digits[i:i+1], mappings)
+		}
+	}
+
+	return mappings[digits]
+}
+
+func combine(s string, b string, mappings map[string][]string) {
+	results := []string{}
+	first, second := mappings[s], mappings[b]
+	for i := 0; i < len(first); i++ {
+		for j := 0; j < len(second); j++ {
+			results = append(results, first[i]+second[j])
+		}
+	}
+
+	mappings[s+b] = results
+}
