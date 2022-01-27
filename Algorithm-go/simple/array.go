@@ -1,8 +1,12 @@
 package simple
 
 import (
+	"bufio"
+	"errors"
 	"fmt"
 	"math"
+	"os"
+	"strconv"
 	"strings"
 
 	"github.com/felixanna/algorithm-go/sort"
@@ -49,7 +53,7 @@ func extend(s string, i, j int) string {
 
 /* LongestCommonString
 Find longest common substring in 2 given string
-	1. create mappings for s and reverse s
+	1. create mappings for one and another
 	2. sum in mappings: if mp[x][y] = 1, then map[x][y]=map[x-1][y-1]+1, else: mp[x][y]= max(mp[x-1][y], mp[x][y-1])
 	3. from mp[m][n] to map[0][0]: if mp[x-1][y] == mp[x][y], x=x-1, else if mp[x][y-1] == mp[x][y],y=y-1, else found the position: print till map[i][j]=1
 */
@@ -176,30 +180,39 @@ func Reverse(x int) int {
 	return result
 }
 
-func myAtoi(s string) int {
+func MyAtoi(s string) int {
 	result := 0
-	//32 space,  43+, 45-, 48~57
-	sign := true
-	for i := 0; i < len(s); i++ {
-		switch {
-		case s[i] == 32:
-			break
-		case s[i] == 43:
-			sign = true
-		case s[i] == 45:
-			sign = false
-		case s[i] >= 48 && s[i] <= 57:
-			{
-				inc := int(s[i] - 48)
+	i := 0
+	for s[i] == 32 {
+		s = s[i+1:] //remove space
+	}
 
-				if sign && (math.MaxInt32-inc)/10 < result {
-					return math.MaxInt32
-				} else if !sign && (math.MinInt32+inc)/-10 < result {
-					return math.MinInt32
-				} else {
-					result = result*10 + inc
-				}
+	sign := true
+	if s[i] == 43 {
+		s = s[i+1:] //positive
+	}
+
+	if s[i] == 45 {
+		sign = false
+		s = s[i+1:] //negative
+	}
+
+	fmt.Println(s)
+	//32 space,  43+, 45-, 48~57
+	for i < len(s) {
+		if s[i] >= 48 && s[i] <= 57 {
+			inc := int(s[i] - 48)
+
+			if sign && (math.MaxInt32-inc)/10 < result {
+				return math.MaxInt32
+			} else if !sign && (math.MinInt32+inc)/-10 < result {
+				return math.MinInt32
+			} else {
+				result = result*10 + inc
 			}
+			i++
+		} else {
+			return -1
 		}
 	}
 
@@ -207,6 +220,7 @@ func myAtoi(s string) int {
 		result *= -1
 	}
 
+	fmt.Println(result)
 	return result
 }
 
@@ -336,4 +350,124 @@ loop:
 	}
 
 	return turn == 1
+}
+
+func Spreadsheet() {
+	var cmd string
+	var sph [][]int
+	scanner := bufio.NewScanner(os.Stdin)
+
+	help := func() {
+		fmt.Printf("Help Info: %v", cmd)
+	}
+
+	fmt.Println("Please input a command:")
+	var err error
+	for {
+		scanner.Scan()
+		cmd = scanner.Text()
+
+		c := cmd[0]
+		switch c {
+		case byte('C'):
+			fmt.Println("create spreadsheet", cmd[1:])
+			sph, err = createSpread(cmd[1:])
+			fmt.Println("created spreadsheet")
+		case byte('N'):
+			fmt.Println("Insert spreadsheet")
+			err = insertSpread(cmd[1:], sph)
+		case byte('S'):
+			fmt.Println("Sum spreadsheet")
+			err = sumSpread(cmd[1:], sph)
+		case byte('Q'):
+			fmt.Println(sph)
+			return
+		default:
+			help()
+		}
+
+		if err != nil {
+			help()
+		}
+	}
+}
+
+func createSpread(s string) ([][]int, error) {
+	instructions := strings.Split(strings.TrimSpace(s), " ")
+	if len(instructions) != 2 {
+		fmt.Println(instructions)
+		return nil, errors.New("invalid arguments")
+	}
+
+	row, errRow := strconv.ParseInt(instructions[0], 10, 32)
+	col, errColumn := strconv.ParseInt(instructions[1], 10, 32)
+	if errRow != nil || errColumn != nil {
+		return nil, errors.New("invalid arguments")
+	}
+
+	sph := make([][]int, row)
+	for i := 0; i < int(row); i++ {
+		sph[i] = make([]int, col)
+	}
+
+	return sph, nil
+}
+
+func insertSpread(s string, sph [][]int) error {
+	instructions := strings.Split(strings.TrimSpace(s), " ")
+	if len(instructions) != 3 {
+		return errors.New("invalid arguments")
+	}
+
+	row, errRow := strconv.ParseInt(instructions[0], 10, 32)
+	col, errColumn := strconv.ParseInt(instructions[1], 10, 32)
+	val, errVal := strconv.ParseInt(instructions[2], 10, 32)
+	if errRow != nil || errColumn != nil || errVal != nil {
+		return errors.New("invalid arguments")
+	}
+
+	if int(row) >= len(sph) || int(col) >= len(sph[0]) {
+		return errors.New("invalid arguments")
+	}
+
+	sph[row][col] = int(val)
+
+	return nil
+}
+
+func sumSpread(s string, sph [][]int) error {
+	instructions := strings.Split(strings.TrimSpace(s), " ")
+	if len(instructions)%2 != 0 || len(instructions) < 6 {
+		return errors.New("invalid arguments")
+	}
+
+	sum := 0
+	for i := 0; i < len(instructions)-2; i += 2 {
+		row, errRow := strconv.ParseInt(instructions[i], 10, 32)
+		col, errColumn := strconv.ParseInt(instructions[i+1], 10, 32)
+		if errRow != nil || errColumn != nil {
+			return errors.New("invalid arguments")
+		}
+
+		if int(row) >= len(sph) || int(col) >= len(sph[0]) {
+			return errors.New("invalid arguments")
+		}
+
+		val := sph[row][col]
+		sum += val
+	}
+
+	row, errRow := strconv.ParseInt(instructions[len(instructions)-2], 10, 32)
+	col, errColumn := strconv.ParseInt(instructions[len(instructions)-1], 10, 32)
+	if errRow != nil || errColumn != nil {
+		return errors.New("invalid arguments")
+	}
+
+	if int(row) >= len(sph) || int(col) >= len(sph[0]) {
+		return errors.New("invalid arguments")
+	}
+
+	sph[row][col] = sum
+
+	return nil
 }

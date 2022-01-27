@@ -275,3 +275,27 @@ func TestRemoveNthFromEnd_Last(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMyAtoi_Positive(t *testing.T) {
+	input := "123"
+	result := MyAtoi(input)
+	if result != 123 {
+		t.Fail()
+	}
+}
+
+func TestMyAtoi_Negative(t *testing.T) {
+	input := "-123"
+	result := MyAtoi(input)
+	if result != -123 {
+		t.Fail()
+	}
+}
+
+func TestMyAtoi_Zero(t *testing.T) {
+	input := "+0"
+	result := MyAtoi(input)
+	if result != 0 {
+		t.Fail()
+	}
+}

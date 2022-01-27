@@ -1,9 +1,7 @@
 package main
 
-import (
-	"fmt"
-)
+import "github.com/felixanna/algorithm-go/simple"
 
 func main() {
-	fmt.Println("Hello, Wolf!")
+	simple.Spreadsheet()
 }
