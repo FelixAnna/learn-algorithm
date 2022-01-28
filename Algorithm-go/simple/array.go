@@ -1,11 +1,9 @@
 package simple
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"math"
-	"os"
 	"strconv"
 	"strings"
 
@@ -352,20 +350,19 @@ loop:
 	return turn == 1
 }
 
-func Spreadsheet() {
-	var cmd string
+func Spreadsheet(cmds []string) [][]int {
 	var sph [][]int
-	scanner := bufio.NewScanner(os.Stdin)
+	//scanner := bufio.NewScanner(os.Stdin)
 
 	help := func() {
-		fmt.Printf("Help Info: %v", cmd)
+		fmt.Printf("Help Info: %v", cmds)
 	}
 
 	fmt.Println("Please input a command:")
 	var err error
-	for {
-		scanner.Scan()
-		cmd = scanner.Text()
+	for _, cmd := range cmds {
+		//scanner.Scan()
+		//cmd = scanner.Text()
 
 		c := cmd[0]
 		switch c {
@@ -381,7 +378,7 @@ func Spreadsheet() {
 			err = sumSpread(cmd[1:], sph)
 		case byte('Q'):
 			fmt.Println(sph)
-			return
+			return sph
 		default:
 			help()
 		}
@@ -390,6 +387,8 @@ func Spreadsheet() {
 			help()
 		}
 	}
+
+	return sph
 }
 
 func createSpread(s string) ([][]int, error) {

@@ -299,3 +299,16 @@ func TestMyAtoi_Zero(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestSpreadSheet(t *testing.T) {
+	cmds := []string{
+		"C 10 20",
+		"N 3 4 6",
+		"N 4 5 6",
+		"S 3 4 4 5 5 6",
+	}
+	result := Spreadsheet(cmds)
+	if len(result) != 10 || len(result[5]) != 20 || result[5][6] != 12 {
+		t.Fail()
+	}
+}
