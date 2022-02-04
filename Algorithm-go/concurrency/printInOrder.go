@@ -1,23 +1,10 @@
 package concurrency
 
-type Action func(string)
-type PrintInOrder interface {
-	First(func(int) string)
-	Second(func(int) string)
-	Third(func(int) string)
-}
-
 type PrintInOrderGo struct {
 	c1     chan bool
 	c2     chan bool
 	c3     chan bool
 	Output string
-}
-
-func (p *PrintInOrderGo) Initial() {
-	p.c1 = make(chan bool)
-	p.c2 = make(chan bool)
-	p.c3 = make(chan bool)
 }
 
 func (p *PrintInOrderGo) First(f func(int) string) {

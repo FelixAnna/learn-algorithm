@@ -7,8 +7,11 @@ import (
 )
 
 func TestPrintInOrder_Reverse(t *testing.T) {
-	po := PrintInOrderGo{}
-	po.Initial()
+	po := PrintInOrderGo{
+		c1: make(chan bool),
+		c2: make(chan bool),
+		c3: make(chan bool),
+	}
 
 	f := func(i int) string {
 		result := strconv.FormatInt(int64(i), 10)
@@ -28,8 +31,11 @@ func TestPrintInOrder_Reverse(t *testing.T) {
 }
 
 func TestPrintInOrder_AnyOrder(t *testing.T) {
-	po := PrintInOrderGo{}
-	po.Initial()
+	po := PrintInOrderGo{
+		c1: make(chan bool),
+		c2: make(chan bool),
+		c3: make(chan bool),
+	}
 
 	f := func(i int) string {
 		result := strconv.FormatInt(int64(i), 10)
