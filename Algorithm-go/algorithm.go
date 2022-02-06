@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	mathCheck(5, 1, 10, true)
+	mathCheck(10, 1, 20, false)
 }
 
 func mathCheck(count int, min, max int, md bool) {

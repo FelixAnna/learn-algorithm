@@ -470,3 +470,30 @@ func sumSpread(s string, sph [][]int) error {
 
 	return nil
 }
+
+func isValid(s string) bool {
+	stack := make([]byte, 0)
+
+	for _, v := range s {
+		switch v {
+		case '(':
+			stack = append(stack, ')')
+		case '{':
+			stack = append(stack, '}')
+		case '[':
+			stack = append(stack, ']')
+		default:
+			if len(stack) == 0 {
+				return false
+			}
+
+			last := stack[len(stack)-1]
+			stack = stack[0 : len(stack)-1]
+			if last != byte(v) {
+				return false
+			}
+		}
+	}
+
+	return len(stack) == 0
+}

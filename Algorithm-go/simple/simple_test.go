@@ -312,3 +312,19 @@ func TestSpreadSheet(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestGenerateParenthesis(t *testing.T) {
+	result := GenerateParenthesis(1)
+
+	if result[0] != "()" {
+		t.Fail()
+	}
+}
+
+func TestGenerateParenthesis_More(t *testing.T) {
+	result := GenerateParenthesis(4)
+
+	if len(result) != 14 {
+		t.Fail()
+	}
+}
