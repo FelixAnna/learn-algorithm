@@ -342,3 +342,25 @@ func TestGenerateParenthesis_More(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestLongestCommonPrefix_Decrease(t *testing.T) {
+	strs := []string{
+		"ab", "a",
+	}
+	result := LongestCommonPrefix(strs)
+
+	if result != "a" {
+		t.Fail()
+	}
+}
+
+func TestLongestCommonPrefix_Common(t *testing.T) {
+	strs := []string{
+		"farway", "family", "first",
+	}
+	result := LongestCommonPrefix(strs)
+
+	if result != "f" {
+		t.Fail()
+	}
+}

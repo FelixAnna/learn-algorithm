@@ -497,3 +497,36 @@ func ValidParentheses(s string) bool {
 
 	return len(stack) == 0
 }
+
+func LongestCommonPrefix(strs []string) string {
+	length := len(strs)
+
+	if length == 0 {
+		return ""
+	}
+
+	if length == 1 {
+		return strs[0]
+	}
+
+	current := strs[0]
+
+	for i := 1; i < length; i++ {
+		target := strs[i]
+		j := 0
+		for j < len(current) && j < len(target) {
+			if target[j] != current[j] {
+
+				break
+			}
+			j++
+		}
+
+		current = current[0:j]
+		if len(current) == 0 {
+			return ""
+		}
+	}
+
+	return current
+}
