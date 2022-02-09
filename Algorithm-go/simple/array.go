@@ -471,7 +471,7 @@ func sumSpread(s string, sph [][]int) error {
 	return nil
 }
 
-func isValid(s string) bool {
+func ValidParentheses(s string) bool {
 	stack := make([]byte, 0)
 
 	for _, v := range s {

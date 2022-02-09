@@ -1,6 +1,9 @@
 package homework
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCreateQuestions_PA(t *testing.T) {
 	count := 5
@@ -30,6 +33,60 @@ func TestCreateQuestions_MD(t *testing.T) {
 
 	result := CreateQuestions(&criteria)
 	if len(result) != count {
+		t.Fail()
+	}
+}
+
+func TestCreateQuestions_Invalid(t *testing.T) {
+	count := 50
+	min, max := 1, 5
+	md := false
+	criteria := MathCriteria{
+		Count:                 count,
+		InputRange:            []int{min, max},
+		IncludeMultiplyDivide: md,
+	}
+
+	result := CreateQuestions(&criteria)
+
+	fmt.Println(result)
+	if len(result) == count {
+		t.Fail()
+	}
+}
+
+func TestCreateQuestions_Invalid_Range(t *testing.T) {
+	count := 50
+	min, max := 100, 5
+	md := false
+	criteria := MathCriteria{
+		Count:                 count,
+		InputRange:            []int{min, max},
+		IncludeMultiplyDivide: md,
+	}
+
+	result := CreateQuestions(&criteria)
+
+	fmt.Println(result)
+	if len(result) != 0 {
+		t.Fail()
+	}
+}
+
+func TestCreateQuestions_Invalid_Args(t *testing.T) {
+	count := 50
+	min := 1
+	md := false
+	criteria := MathCriteria{
+		Count:                 count,
+		InputRange:            []int{min},
+		IncludeMultiplyDivide: md,
+	}
+
+	result := CreateQuestions(&criteria)
+
+	fmt.Println(result)
+	if len(result) != 0 {
 		t.Fail()
 	}
 }

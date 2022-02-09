@@ -313,6 +313,20 @@ func TestSpreadSheet(t *testing.T) {
 	}
 }
 
+func TestValidParentheses_Ok(t *testing.T) {
+	result := ValidParentheses("()[{}]")
+	if result != true {
+		t.Fail()
+	}
+}
+
+func TestValidParentheses_Error(t *testing.T) {
+	result := ValidParentheses("()[{)]")
+	if result == true {
+		t.Fail()
+	}
+}
+
 func TestGenerateParenthesis(t *testing.T) {
 	result := GenerateParenthesis(1)
 

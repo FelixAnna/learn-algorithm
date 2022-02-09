@@ -40,9 +40,9 @@ func FibBottomUp(n int) []int64 {
 }
 
 func fibBottomUpInternal(n int64, results []int64) int64 {
-	if n <= 1 {
-		return 1
-	}
+	// if n <= 1 {
+	// 	return 1
+	// }
 
 	return results[n-1] + results[n-2]
 }
