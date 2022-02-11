@@ -364,3 +364,19 @@ func TestLongestCommonPrefix_Common(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRomanToInt_IncreaseOnly(t *testing.T) {
+	input := "DCXXI"
+	result := RomanToInt(input)
+	if result != 621 {
+		t.Fail()
+	}
+}
+
+func TestRomanToInt_Decrease(t *testing.T) {
+	input := "IV"
+	result := RomanToInt(input)
+	if result != 4 {
+		t.Fail()
+	}
+}

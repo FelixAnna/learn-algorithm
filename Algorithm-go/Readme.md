@@ -31,7 +31,7 @@ go test ./...
 
 # test with coverage report
 go get golang.org/x/tools/cmd/cover
-go test ./... -coverprofile cover.out
+go test ./... -coverprofile cover.out  
 go tool cover -html=cover.out -o cover.html
 ```
 

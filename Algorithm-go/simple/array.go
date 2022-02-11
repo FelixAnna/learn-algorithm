@@ -530,3 +530,54 @@ func LongestCommonPrefix(strs []string) string {
 
 	return current
 }
+
+/*  VI
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+*/
+func RomanToInt(s string) int {
+	maxdigit := 0
+	result := 0
+	i := len(s) - 1
+	for i >= 0 {
+		var current int
+		switch s[i] {
+		case 'I':
+			current = 1
+		case 'V':
+			current = 5
+		case 'X':
+			current = 10
+		case 'L':
+			current = 50
+		case 'C':
+			current = 100
+		case 'D':
+			current = 500
+		case 'M':
+			current = 1000
+		default:
+			return 0
+		}
+
+		if current > maxdigit {
+			maxdigit = current
+		}
+
+		if current < maxdigit {
+			result -= current
+		} else {
+			result += current
+		}
+
+		i--
+	}
+
+	return result
+}
