@@ -1,6 +1,7 @@
 package simple
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -124,4 +125,77 @@ func combine(s string, b string, mappings map[string][]string) {
 	}
 
 	mappings[s+b] = results
+}
+
+func divide(dividend int, divisor int) int {
+	if dividend == 0 {
+		return 0
+	}
+
+	sign := 1
+	if dividend < 0 && divisor > 0 {
+		sign = -1
+		dividend = 0 - dividend
+	} else if dividend > 0 && divisor < 0 {
+		sign = -1
+		divisor = 0 - divisor
+	}
+
+	mappings := make(map[int]int, 0)
+	i := 1
+	const max int = 1024 * 1024 * 1024
+	mappings[1] = divisor
+	for {
+		if mappings[i] >= dividend || mappings[i] >= max {
+			break
+		}
+
+		mappings[i+i] = mappings[i] + mappings[i]
+		i = i + i
+	}
+
+	topTimes := i
+	times := 0
+	j := topTimes
+	for dividend > divisor {
+
+		if dividend >= mappings[j] {
+			dividend -= mappings[j]
+			times += j
+		} else {
+			j = j >> 1
+		}
+
+	}
+
+	return sign * times
+}
+
+func IsValidSudoku(board [][]byte) bool {
+	/*
+	   1. horizontal check
+	   2. vertical check
+	   3. 3x3 check
+	*/
+	maps := make(map[string]bool, 0)
+
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			val := board[i][j]
+			if val == '.' {
+				continue
+			}
+
+			row, col, three := fmt.Sprintf("%v in row %v", val, i), fmt.Sprintf("%v in col %v", val, j), fmt.Sprintf("%v in three %v, %v", val, i/3, j/3)
+			if maps[row] || maps[col] || maps[three] {
+				return false
+			}
+
+			maps[row] = true
+			maps[col] = true
+			maps[three] = true
+		}
+	}
+
+	return true
 }

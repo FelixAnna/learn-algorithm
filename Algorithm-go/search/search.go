@@ -99,8 +99,41 @@ func BinarySearch(arr []int, element int) int {
 	case arr[index] > element && index > 0:
 		return BinarySearch(arr[:index], element)
 	case arr[index] < element && index+1 < len(arr):
-		return BinarySearch(arr[index+1:], element) + index + 1
+		re := BinarySearch(arr[index+1:], element)
+		if re != -1 {
+			return re + index + 1
+		} else {
+			return -1
+		}
 	default:
 		return -1
 	}
+}
+
+func searchRange(nums []int, target int) []int {
+	index := BinarySearch(nums, target)
+	if index == -1 {
+		return []int{-1, -1}
+	}
+
+	left, right := index, index
+	for i := left - 1; i > 0; i-- {
+		if nums[i] == nums[index] {
+			left = i
+			continue
+		}
+
+		break
+	}
+
+	for i := right + 1; i < len(nums); i++ {
+		if nums[i] == nums[index] {
+			right = i
+			continue
+		}
+
+		break
+	}
+
+	return []int{left, right}
 }

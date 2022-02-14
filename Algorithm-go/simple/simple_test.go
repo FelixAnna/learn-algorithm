@@ -380,3 +380,30 @@ func TestRomanToInt_Decrease(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestIsValidSudoku(t *testing.T) {
+	input := [][]byte{
+		{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+		{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+		{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+		{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+		{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+		{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+		{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+		{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+		{'.', '.', '.', '.', '8', '.', '.', '7', '9'},
+	}
+	result := IsValidSudoku(input)
+	if !result {
+		t.Fail()
+	}
+}
+
+func TestPermute(t *testing.T) {
+	input := []int{1, 2, 3}
+	result := Permute(input)
+
+	if len(result) != 6 || result[len(result)-1][0] != 3 || result[len(result)-1][1] != 2 || result[len(result)-1][2] != 1 {
+		t.Fail()
+	}
+}
