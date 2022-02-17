@@ -407,3 +407,21 @@ func TestPermute(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestNQueen(t *testing.T) {
+	n := 4
+	res := NQueen(n)
+
+	if len(res) != 2 {
+		t.Fail()
+	}
+}
+
+func TestNQueen_Eight(t *testing.T) {
+	n := 8
+	res := NQueen(n)
+
+	if len(res) != 92 {
+		t.Fail()
+	}
+}

@@ -51,3 +51,40 @@ func backTrackingNums(remainings []int, current []int) [][]int {
 
 	return results
 }
+
+/* n queen issue
+
+ */
+func NQueen(n int) [][]int {
+	results := make([][]int, 0)
+
+	findSolution([]int{}, n, 0, &results)
+	return results
+}
+
+func findSolution(current []int, n int, i int, results *[][]int) {
+	if i == n {
+		*results = append(*results, current)
+	}
+
+	for j := 0; j < n; j++ {
+		newcurrent := append(append([]int{}, current...), j)
+		if !boundCheck(newcurrent, len(newcurrent)-1) {
+			continue
+		}
+
+		findSolution(newcurrent, n, i+1, results)
+	}
+}
+
+//check if last element is valid in current array
+func boundCheck(current []int, c int) bool {
+	for i := 0; i < len(current)-1; i++ { //compare to last element only, suppose current[0:n-1] already valid
+		if current[i] == current[c] || //same column
+			current[i]-current[c] == i-c || current[i]-current[c] == c-i { //diagonal
+			return false
+		}
+	}
+
+	return true
+}
