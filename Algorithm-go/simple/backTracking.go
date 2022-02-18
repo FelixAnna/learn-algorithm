@@ -26,34 +26,27 @@ func backTracking(result []string, p string, left, right, max int) []string {
 }
 
 func Permute(nums []int) [][]int {
-	result := backTrackingNums(nums, []int{})
-
-	return result
-}
-
-func backTrackingNums(remainings []int, current []int) [][]int {
-
-	if len(remainings) == 0 {
-		return [][]int{current}
-	}
-
-	results := make([][]int, 0)
-	for i, val := range remainings {
-		newcurrent := append(current, val)
-		remainings[0], remainings[i] = remainings[i], remainings[0] //changing the current slice
-
-		remainingNums := make([]int, 0) // create new slice for avoid overwrite by other recursive: otherwise
-		//the recursive func will change the same slice - remainingNums := remainings[1:]
-		remainingNums = append(remainingNums, remainings[1:]...)
-
-		results = append(results, backTrackingNums(remainingNums, newcurrent)...)
-	}
+	results := [][]int{}
+	backTrackingNums(nums, []int{}, &results)
 
 	return results
 }
 
-/* n queen issue
+func backTrackingNums(remainings []int, current []int, results *[][]int) {
 
+	if len(remainings) == 0 {
+		*results = append(*results, current)
+	}
+
+	for i, val := range remainings {
+		backTrackingNums(
+			append(append([]int{}, remainings[:i]...), remainings[i+1:]...), //append to new slice, avoid change existing slice
+			append(current, val),
+			results)
+	}
+}
+
+/* n queen issue
  */
 func NQueen(n int) [][]int {
 	results := make([][]int, 0)
@@ -69,7 +62,7 @@ func findSolution(current []int, n int, i int, results *[][]int) {
 
 	for j := 0; j < n; j++ {
 		newcurrent := append(append([]int{}, current...), j)
-		if !boundCheck(newcurrent, len(newcurrent)-1) {
+		if !boundChecknQ(newcurrent, len(newcurrent)-1) {
 			continue
 		}
 
@@ -78,7 +71,7 @@ func findSolution(current []int, n int, i int, results *[][]int) {
 }
 
 //check if last element is valid in current array
-func boundCheck(current []int, c int) bool {
+func boundChecknQ(current []int, c int) bool {
 	for i := 0; i < len(current)-1; i++ { //compare to last element only, suppose current[0:n-1] already valid
 		if current[i] == current[c] || //same column
 			current[i]-current[c] == i-c || current[i]-current[c] == c-i { //diagonal
@@ -87,4 +80,57 @@ func boundCheck(current []int, c int) bool {
 	}
 
 	return true
+}
+
+func SolveNQueens(n int) [][]string {
+	results := make([][]string, 0)
+
+	findSolutions(make([]int, 0), n, 0, &results)
+
+	return results
+}
+
+func findSolutions(current []int, n, i int, results *[][]string) {
+	if i == n {
+		*results = append(*results, converToString(current))
+		return
+	}
+
+	for j := 0; j < n; j++ {
+
+		if !boundCheck(current, j) {
+			continue
+		}
+
+		findSolutions(append(append([]int{}, current...), j), n, i+1, results)
+	}
+}
+
+func boundCheck(current []int, k int) bool {
+	for i := 0; i < len(current); i++ {
+		if current[i] == k || //same column
+			current[i]-k == len(current)-i || current[i]-k == i-len(current) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func converToString(c []int) []string {
+	results := make([]string, 0)
+	for i := 0; i < len(c); i++ {
+		line := ""
+		for j := 0; j < len(c); j++ {
+			if j == c[i] {
+				line += "Q"
+			} else {
+				line += "."
+			}
+		}
+
+		results = append(results, line)
+	}
+
+	return results
 }

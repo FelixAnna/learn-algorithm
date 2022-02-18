@@ -1,6 +1,7 @@
 package simple
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -404,6 +405,7 @@ func TestPermute(t *testing.T) {
 	result := Permute(input)
 
 	if len(result) != 6 || result[len(result)-1][0] != 3 || result[len(result)-1][1] != 2 || result[len(result)-1][2] != 1 {
+		fmt.Println(result)
 		t.Fail()
 	}
 }
@@ -422,6 +424,33 @@ func TestNQueen_Eight(t *testing.T) {
 	res := NQueen(n)
 
 	if len(res) != 92 {
+		t.Fail()
+	}
+}
+
+func TestSolveNQueens(t *testing.T) {
+	n := 4
+	res := SolveNQueens(n)
+
+	if len(res) != 2 {
+		t.Fail()
+	}
+}
+
+func TestSolveNQueens_Eight(t *testing.T) {
+	n := 8
+	res := SolveNQueens(n)
+
+	if len(res) != 92 {
+		t.Fail()
+	}
+}
+
+func TestGroupAnagrams(t *testing.T) {
+	strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	res := GroupAnagrams(strs)
+
+	if len(res) != 3 {
 		t.Fail()
 	}
 }

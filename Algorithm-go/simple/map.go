@@ -199,3 +199,38 @@ func IsValidSudoku(board [][]byte) bool {
 
 	return true
 }
+
+func GroupAnagrams(strs []string) [][]string {
+	results := make(map[string][]string, 0)
+
+	for _, val := range strs {
+		list := make([]int, 26)
+		for _, ch := range val {
+			list[ch-'a']++
+		}
+
+		key := ""
+		for i, v := range list {
+			if v == 0 {
+				continue
+			}
+
+			key += fmt.Sprintf("%v%v-", i, v)
+		}
+
+		//fmt.Println(key, list)
+		ls, ok := results[key]
+		if ok {
+			results[key] = append(ls, val)
+		} else {
+			results[key] = []string{val}
+		}
+	}
+
+	solution := make([][]string, 0)
+	for _, ls := range results {
+		solution = append(solution, ls)
+	}
+
+	return solution
+}
