@@ -581,3 +581,60 @@ func RomanToInt(s string) int {
 
 	return result
 }
+
+/* Spiral Matrix
+given m*n matrix,
+define [m*n]int
+loop:
+	round 1: get int[i], and append to results x=x-1
+	round 2: get from i+1 - n, get last element, append to results, y=y-1
+	round 3: get from y - 0, append to results - x=x-1
+	round 4: get from n - i+1, append to results - y= y-1
+*/
+func SpiralOrder(matrix [][]int) []int {
+	results := []int{}
+	loopTrap(matrix, 0, len(matrix)-1, 0, len(matrix[0])-1, &results)
+
+	return results
+}
+
+func loopTrap(matrix [][]int, i1, i2, j1, j2 int, results *[]int) {
+	//round 1: get matrix[i1], append to results, i1+=1
+	*results = append(*results, matrix[i1][j1:j2+1]...)
+	i1 += 1
+
+	if i1 > i2 {
+		return
+	}
+
+	//round 2: from i1 to i2, get last element of each row
+	for i := i1; i <= i2; i++ {
+		*results = append(*results, matrix[i][j2])
+	}
+	j2 -= 1
+	if j1 > j2 {
+		return
+	}
+
+	//round 3: get last row, from last to first, append to results
+	for j := j2; j >= j1; j-- {
+		*results = append(*results, matrix[i2][j])
+	}
+	i2 -= 1
+
+	if i1 > i2 {
+		return
+	}
+
+	//round 4: for first column, append all of them from last to first
+	for i := i2; i >= i1; i-- {
+		*results = append(*results, matrix[i][j1])
+	}
+	j1 += 1
+
+	if j1 > j2 {
+		return
+	}
+
+	loopTrap(matrix, i1, i2, j1, j2, results)
+}

@@ -109,3 +109,27 @@ dp[i][j] means s[:i] matches p[:j] - 1st i-1 element matches 1st j-1 pattern
 func IsMatch(s string, p string) bool {
 	return false
 }
+
+/* Maximum Subarray
+find contiguous subarry who have maximum value
+solution:
+always keep the maxinum sum till index i in array,
+maximum of the whole array is one of the maximum sum of index i in array
+this is so called: Kadane's algorithm
+*/
+func MaxSubArray(nums []int) int {
+	maxTillNow, max := nums[0], nums[0]
+
+	for _, val := range nums[1:] {
+		if maxTillNow > 0 {
+			maxTillNow = val + maxTillNow
+		} else {
+			maxTillNow = val
+		}
+		if maxTillNow > max {
+			max = maxTillNow
+		}
+	}
+
+	return max
+}

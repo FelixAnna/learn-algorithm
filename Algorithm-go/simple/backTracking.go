@@ -134,3 +134,25 @@ func converToString(c []int) []string {
 
 	return results
 }
+
+func Subsets(nums []int) [][]int {
+	results := make([][]int, 0)
+	results = append(results, []int{})
+
+	findSubset(nums, []int{}, &results)
+	return results
+}
+
+func findSubset(nums, current []int, results *[][]int) {
+	if len(nums) == 0 {
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		newcurrent := append(append([]int{}, current...), nums[i])
+		*results = append(*results, newcurrent)
+		if i+1 <= len(nums) {
+			findSubset(nums[i+1:], newcurrent, results)
+		}
+	}
+}

@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	example.MathCheck(10, 1, 50, false)
+	example.MathCheck(10, 10, 50, false)
 }

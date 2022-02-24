@@ -14,6 +14,8 @@ type MathCriteria struct {
 	InputRange []int
 
 	IncludeMultiplyDivide bool
+
+	ApplicationQuestions bool
 }
 
 type Question struct {
@@ -62,7 +64,7 @@ func CreateQuestions(c *MathCriteria) (questions []Question) {
 
 		var qe *Question
 		if !c.IncludeMultiplyDivide {
-			qe = createPlusMinusQuestions(i, num1, num2, questions)
+			qe = createPlusMinusQuestions(i, num1, num2, questions, c.ApplicationQuestions)
 		} else {
 			qe = createMultiplyDivideQuestions(i, num1, num2, questions)
 		}
@@ -76,9 +78,15 @@ func CreateQuestions(c *MathCriteria) (questions []Question) {
 	return
 }
 
-func createPlusMinusQuestions(i, num1, num2 int, questions []Question) *Question {
+func createPlusMinusQuestions(i, num1, num2 int, questions []Question, application bool) *Question {
 	plus := func(i, n1, n2 int) *Question {
-		qe := Question{Id: i, Expression: fmt.Sprintf("%v + %v =", n1, n2), Answer: n1 + n2}
+		var expression string
+		if application {
+			expression = createdPlusMinusCase(num1, num2, true)
+		} else {
+			expression = fmt.Sprintf("%v + %v =", n1, n2)
+		}
+		qe := Question{Id: i, Expression: expression, Answer: n1 + n2}
 		if checkExistance(qe.Expression, questions) {
 			return nil
 		}
@@ -86,7 +94,13 @@ func createPlusMinusQuestions(i, num1, num2 int, questions []Question) *Question
 		return &qe
 	}
 	minus := func(i, n1, n2 int) *Question {
-		qe := Question{Id: i, Expression: fmt.Sprintf("%v - %v =", n1, n2), Answer: n1 - n2}
+		var expression string
+		if application {
+			expression = createdPlusMinusCase(num1, num2, false)
+		} else {
+			expression = fmt.Sprintf("%v - %v =", n1, n2)
+		}
+		qe := Question{Id: i, Expression: expression, Answer: n1 - n2}
 		if checkExistance(qe.Expression, questions) {
 			return nil
 		}
@@ -107,6 +121,32 @@ func createPlusMinusQuestions(i, num1, num2 int, questions []Question) *Question
 	}
 
 	return created
+}
+
+func createdPlusMinusCase(i, j int, plus bool) string {
+	users := []string{"小明", "小张", "小周", "小吴", "Kitty", "Alice", "Tom", "Eddie", "Anna", "Luca"}
+	goods := []string{"Apple", "Orange", "Pear", "巧克力糖果"}
+	minus_templates := []string{"%v买了%v个%v,弄丢了%v个,还剩几个?",
+		"%v有%v个%v,吃掉了%v个,还有几个?",
+		"%v昨天获得了%v个%v的奖励,已经吃掉了%v个,还剩几个?",
+		"%v有%v元钱, 他想买一个%v,苹果的价格是%v元,买完之后他还有多少钱?",
+		"%v有%v个%v,吃掉了一些,还有%v个, 吃掉了几个?",
+	}
+
+	plus_templates := []string{"%v刚刚买了%v个%v,然后又发现冰箱里还有%v个,现在总共有几个?",
+		"%v昨天获得了%v个%v的奖励,前台也获得了%v个,一个获得了几个?"}
+
+	user := users[getRandomInt(0, len(users)-1)]
+	good := goods[getRandomInt(0, len(goods)-1)]
+	var template string
+	if plus {
+		template = plus_templates[getRandomInt(0, len(plus_templates)-1)]
+	} else {
+		template = minus_templates[getRandomInt(0, len(minus_templates)-1)]
+	}
+
+	result := fmt.Sprintf(template, user, i, good, j)
+	return result
 }
 
 func createMultiplyDivideQuestions(i, num1, num2 int, questions []Question) *Question {

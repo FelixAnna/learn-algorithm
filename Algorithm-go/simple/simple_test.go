@@ -454,3 +454,19 @@ func TestGroupAnagrams(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestSubset(t *testing.T) {
+	nums := []int{1, 3, 7}
+	results := Subsets(nums)
+	if len(results) != 8 {
+		t.Fail()
+	}
+}
+
+func TestSpiralOrder(t *testing.T) {
+	matrix := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+	ret := SpiralOrder(matrix)
+	if ret[0] != 1 || ret[8] != 5 || len(ret) != 9 {
+		t.Fail()
+	}
+}
