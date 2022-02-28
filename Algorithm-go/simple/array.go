@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	sysSort "sort"
+
 	"github.com/felixanna/algorithm-go/sort"
 )
 
@@ -637,4 +639,37 @@ func loopTrap(matrix [][]int, i1, i2, j1, j2 int, results *[]int) {
 	}
 
 	loopTrap(matrix, i1, i2, j1, j2, results)
+}
+
+func MergeIntervals(intervals [][]int) [][]int {
+
+	//sort intervals
+	sysSort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+
+	results := make([][]int, 0)
+
+	i := 0
+	for i < len(intervals) {
+		low, high := intervals[i][0], intervals[i][1]
+		j := i + 1
+		for j < len(intervals) && intervals[j][0] <= high {
+			high = max(high, intervals[j][1])
+			j++
+		}
+
+		results = append(results, []int{low, high})
+		i = j
+	}
+
+	return results
+}
+
+func max(i, j int) int {
+	if i > j {
+		return i
+	}
+
+	return j
 }

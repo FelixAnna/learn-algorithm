@@ -58,3 +58,19 @@ func TestMaxSubArray(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCanJump(t *testing.T) {
+	nums := []int{2, 3, 1, 1, 4}
+	ret := CanJump(nums)
+
+	if !ret {
+		t.Fail()
+	}
+}
+
+func TestUniquePaths(t *testing.T) {
+	ret := UniquePaths(3, 7)
+	if ret != 28 {
+		t.Fail()
+	}
+}

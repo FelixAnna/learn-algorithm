@@ -133,3 +133,48 @@ func MaxSubArray(nums []int) int {
 
 	return max
 }
+
+/*
+keep maximum till i,  if all i can be reach till end, then can jump to end
+*/
+func CanJump(nums []int) bool {
+	reachable := 0
+
+	for i := 0; i < len(nums); i++ {
+		if reachable < i { //not able to reach i
+			return false
+		}
+
+		if i+nums[i] > reachable {
+			reachable = i + nums[i]
+		}
+	}
+
+	return true
+}
+
+//moving to i, j can be moved in 2 ways from previous step:
+//from i-1,j or from i,j-1
+//if m or n = 1, the there are only one way
+func UniquePaths(m int, n int) int {
+	if m == 1 || n == 1 {
+		return 1
+	}
+
+	quantities := make([][]int, m)
+
+	quantities[0] = make([]int, n)
+	for i := 0; i < n; i++ {
+		quantities[0][i] = 1
+	}
+
+	for i := 1; i < m; i++ {
+		quantities[i] = make([]int, n)
+		quantities[i][0] = 1
+		for j := 1; j < n; j++ {
+			quantities[i][j] = quantities[i-1][j] + quantities[i][j-1]
+		}
+	}
+
+	return quantities[m-1][n-1]
+}

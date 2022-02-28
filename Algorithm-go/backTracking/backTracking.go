@@ -1,4 +1,4 @@
-package simple
+package backTracking
 
 func GenerateParenthesis(n int) []string {
 	result := make([]string, 0)
@@ -155,4 +155,32 @@ func findSubset(nums, current []int, results *[][]int) {
 			findSubset(nums[i+1:], newcurrent, results)
 		}
 	}
+}
+
+//backtracking for this issue have performace issue
+func uniquePaths(m int, n int) int {
+	quantity := 0
+	if m < n {
+		m, n = n, m
+	}
+
+	if m == 1 && n == 1 {
+		return 1
+	}
+
+	findPath(m-1, n-1, &quantity)
+	return quantity
+}
+
+func findPath(i, j int, quantity *int) {
+	if i == 0 && j == 0 {
+		*quantity += 1
+	}
+
+	if i < 0 || j < 0 {
+		return
+	}
+
+	findPath(i-1, j, quantity)
+	findPath(i, j-1, quantity)
 }

@@ -126,11 +126,12 @@ func createPlusMinusQuestions(i, num1, num2 int, questions []Question, applicati
 func createdPlusMinusCase(i, j int, plus bool) string {
 	users := []string{"小明", "小张", "小周", "小吴", "Kitty", "Alice", "Tom", "Eddie", "Anna", "Luca"}
 	goods := []string{"Apple", "Orange", "Pear", "巧克力糖果"}
-	minus_templates := []string{"%v买了%v个%v,弄丢了%v个,还剩几个?",
-		"%v有%v个%v,吃掉了%v个,还有几个?",
-		"%v昨天获得了%v个%v的奖励,已经吃掉了%v个,还剩几个?",
-		"%v有%v元钱, 他想买一个%v,苹果的价格是%v元,买完之后他还有多少钱?",
+	minus_templates := []string{ //"%v买了%v个%v,弄丢了%v个,还剩几个?",
+		//"%v有%v个%v,吃掉了%v个,还有几个?",
+		//"%v昨天获得了%v个%v的奖励,已经吃掉了%v个,还剩几个?",
+		//"%v有%v元钱, 他想买一个%v,苹果的价格是%v元,买完之后他还有多少钱?",
 		"%v有%v个%v,吃掉了一些,还有%v个, 吃掉了几个?",
+		"%v收到了%v个%v,分给小王一些后,还有%v个, 他分给小王几个?",
 	}
 
 	plus_templates := []string{"%v刚刚买了%v个%v,然后又发现冰箱里还有%v个,现在总共有几个?",
