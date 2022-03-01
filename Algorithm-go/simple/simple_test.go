@@ -408,3 +408,34 @@ func TestMergeIntervals(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestPlusOne(t *testing.T) {
+	digits := []int{9, 9, 9}
+	ret := PlusOne(digits)
+
+	if ret[0] != 1 || len(ret) != 4 {
+		t.Fail()
+	}
+}
+
+func TestMySqrt(t *testing.T) {
+	ret := MySqrt(399)
+	if ret != 19 {
+		t.Fail()
+	}
+}
+
+func TestMySqrt2(t *testing.T) {
+	ret := MySqrt2(399)
+	if ret != 19 {
+		t.Fail()
+	}
+}
+
+func TestSetZeroes(t *testing.T) {
+	matrix := [][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}}
+	SetZeroes(matrix)
+	if matrix[0][1] != 0 || matrix[0][2] != 0 || matrix[1][0] != 0 || matrix[1][3] != 0 {
+		t.Fail()
+	}
+}

@@ -673,3 +673,90 @@ func max(i, j int) int {
 
 	return j
 }
+
+func PlusOne(digits []int) []int {
+	inc := 1
+	for i := len(digits) - 1; i >= 0; i-- {
+		current := digits[i] + inc
+		inc = current / 10
+		digits[i] = current % 10
+		if inc == 0 {
+			break
+		}
+	}
+
+	if inc > 0 {
+		digits = append([]int{inc}, digits...)
+	}
+
+	return digits
+}
+
+func MySqrt(x int) int {
+	if x <= 1 {
+		return x
+	}
+
+	target := float64(x)
+	result := target
+
+	for result*result > target {
+		nresult := (result + target/result) / 2
+		if int(nresult) == int(result) {
+			break
+		}
+
+		result = nresult
+	}
+
+	return int(result)
+}
+
+func MySqrt2(x int) int {
+	if x <= 1 {
+		return x
+	}
+
+	cur, pre := x/2, x
+	for {
+		mult := cur * cur
+		if mult == x {
+			return mult
+		}
+
+		if mult < x {
+			cur = (cur + pre) / 2
+		} else {
+			cur, pre = cur/2, cur
+		}
+	}
+}
+
+func SetZeroes(matrix [][]int) {
+	row, column := make([]int, len(matrix)), make([]int, len(matrix[0]))
+
+	for i := 0; i < len(matrix); i++ {
+		for j := 0; j < len(matrix[i]); j++ {
+			if matrix[i][j] == 0 {
+				column[j] = 1
+				row[i] = 1
+			}
+		}
+	}
+
+	for i := 0; i < len(column); i++ {
+		if column[i] == 1 {
+			for j := 0; j < len(matrix); j++ {
+				matrix[j][i] = 0
+			}
+		}
+	}
+
+	for i := 0; i < len(row); i++ {
+		if row[i] == 1 {
+			for j := 0; j < len(matrix[i]); j++ {
+				matrix[i][j] = 0
+			}
+		}
+	}
+}
