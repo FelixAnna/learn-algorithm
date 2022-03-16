@@ -760,3 +760,45 @@ func SetZeroes(matrix [][]int) {
 		}
 	}
 }
+
+/*
+first missing positive element must be in [1,len(nums)] if any elements not in this range, otherwise is len(nums)+1 if they all in the range
+for i in nums,
+    if val is 0 or negative, or greater than length(nums), ignore and continue check for next element
+    if val-1 == i, then it is in correct pos
+    if val-1 <> i, then
+        if nums[i] == nums[val-1], then continue(escape forever loop)
+        otherwise swap val to nums[val-1], then check nums[i] again
+
+second loop：
+    if val-1 != i, return val
+
+return length+1
+*/
+func FirstMissingPositive(nums []int) int {
+	length := len(nums)
+	i := 0
+	for i < len(nums) {
+
+		val := nums[i]
+
+		if val <= 0 || val > length {
+			i++
+			continue
+		}
+
+		if val-1 != i && nums[i] != nums[val-1] {
+			nums[i], nums[val-1] = nums[val-1], nums[i]
+		} else {
+			i++
+		}
+	}
+
+	for index, val := range nums {
+		if val != index+1 {
+			return index + 1
+		}
+	}
+
+	return length + 1
+}

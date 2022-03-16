@@ -439,3 +439,28 @@ func TestSetZeroes(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestSortColors(t *testing.T) {
+	nums := []int{2, 1, 0}
+	SortColors(nums)
+	if nums[0] != 0 || nums[2] != 2 {
+		t.Fail()
+	}
+}
+
+func TestFirstMissingPositive(t *testing.T) {
+	nums := []int{2, 1, -1, 5}
+	result := FirstMissingPositive(nums)
+	if result != 3 {
+		t.Fail()
+	}
+}
+
+func TestIntersect(t *testing.T) {
+	nums1 := []int{2, 1, -1, 5}
+	nums2 := []int{4, 2, 1, 7}
+	result := Intersect(nums1, nums2)
+	if len(result) != 2 {
+		t.Fail()
+	}
+}

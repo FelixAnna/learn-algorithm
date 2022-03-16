@@ -234,3 +234,32 @@ func GroupAnagrams(strs []string) [][]string {
 
 	return solution
 }
+
+/*
+find the shortest array
+build element map for this array
+loop second array:
+if element in map, output and decrease in map
+*/
+func Intersect(nums1 []int, nums2 []int) []int {
+	if len(nums1) > len(nums2) {
+		nums1, nums2 = nums2, nums1
+	}
+
+	emap := make(map[int]int, 0)
+
+	for _, val := range nums1 {
+		emap[val]++
+	}
+
+	results := make([]int, 0)
+	for _, val := range nums2 {
+		count, exists := emap[val]
+		if exists && count > 0 {
+			results = append(results, val)
+			emap[val] = count - 1
+		}
+	}
+
+	return results
+}
