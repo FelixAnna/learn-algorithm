@@ -199,3 +199,67 @@ func IsValidSudoku(board [][]byte) bool {
 
 	return true
 }
+
+func GroupAnagrams(strs []string) [][]string {
+	results := make(map[string][]string, 0)
+
+	for _, val := range strs {
+		list := make([]int, 26)
+		for _, ch := range val {
+			list[ch-'a']++
+		}
+
+		key := ""
+		for i, v := range list {
+			if v == 0 {
+				continue
+			}
+
+			key += fmt.Sprintf("%v%v-", i, v)
+		}
+
+		//fmt.Println(key, list)
+		ls, ok := results[key]
+		if ok {
+			results[key] = append(ls, val)
+		} else {
+			results[key] = []string{val}
+		}
+	}
+
+	solution := make([][]string, 0)
+	for _, ls := range results {
+		solution = append(solution, ls)
+	}
+
+	return solution
+}
+
+/*
+find the shortest array
+build element map for this array
+loop second array:
+if element in map, output and decrease in map
+*/
+func Intersect(nums1 []int, nums2 []int) []int {
+	if len(nums1) > len(nums2) {
+		nums1, nums2 = nums2, nums1
+	}
+
+	emap := make(map[int]int, 0)
+
+	for _, val := range nums1 {
+		emap[val]++
+	}
+
+	results := make([]int, 0)
+	for _, val := range nums2 {
+		count, exists := emap[val]
+		if exists && count > 0 {
+			results = append(results, val)
+			emap[val] = count - 1
+		}
+	}
+
+	return results
+}

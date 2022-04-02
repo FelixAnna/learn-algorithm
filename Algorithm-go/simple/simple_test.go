@@ -327,22 +327,6 @@ func TestValidParentheses_Error(t *testing.T) {
 	}
 }
 
-func TestGenerateParenthesis(t *testing.T) {
-	result := GenerateParenthesis(1)
-
-	if result[0] != "()" {
-		t.Fail()
-	}
-}
-
-func TestGenerateParenthesis_More(t *testing.T) {
-	result := GenerateParenthesis(4)
-
-	if len(result) != 14 {
-		t.Fail()
-	}
-}
-
 func TestLongestCommonPrefix_Decrease(t *testing.T) {
 	strs := []string{
 		"ab", "a",
@@ -399,29 +383,84 @@ func TestIsValidSudoku(t *testing.T) {
 	}
 }
 
-func TestPermute(t *testing.T) {
-	input := []int{1, 2, 3}
-	result := Permute(input)
+func TestGroupAnagrams(t *testing.T) {
+	strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	res := GroupAnagrams(strs)
 
-	if len(result) != 6 || result[len(result)-1][0] != 3 || result[len(result)-1][1] != 2 || result[len(result)-1][2] != 1 {
+	if len(res) != 3 {
 		t.Fail()
 	}
 }
 
-func TestNQueen(t *testing.T) {
-	n := 4
-	res := NQueen(n)
-
-	if len(res) != 2 {
+func TestSpiralOrder(t *testing.T) {
+	matrix := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+	ret := SpiralOrder(matrix)
+	if ret[0] != 1 || ret[8] != 5 || len(ret) != 9 {
 		t.Fail()
 	}
 }
 
-func TestNQueen_Eight(t *testing.T) {
-	n := 8
-	res := NQueen(n)
+func TestMergeIntervals(t *testing.T) {
+	intervals := [][]int{{3, 7}, {6, 8}, {10, 15}}
 
-	if len(res) != 92 {
+	ret := MergeIntervals(intervals)
+	if len(ret) != 2 {
+		t.Fail()
+	}
+}
+
+func TestPlusOne(t *testing.T) {
+	digits := []int{9, 9, 9}
+	ret := PlusOne(digits)
+
+	if ret[0] != 1 || len(ret) != 4 {
+		t.Fail()
+	}
+}
+
+func TestMySqrt(t *testing.T) {
+	ret := MySqrt(399)
+	if ret != 19 {
+		t.Fail()
+	}
+}
+
+func TestMySqrt2(t *testing.T) {
+	ret := MySqrt2(399)
+	if ret != 19 {
+		t.Fail()
+	}
+}
+
+func TestSetZeroes(t *testing.T) {
+	matrix := [][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}}
+	SetZeroes(matrix)
+	if matrix[0][1] != 0 || matrix[0][2] != 0 || matrix[1][0] != 0 || matrix[1][3] != 0 {
+		t.Fail()
+	}
+}
+
+func TestSortColors(t *testing.T) {
+	nums := []int{2, 1, 0}
+	SortColors(nums)
+	if nums[0] != 0 || nums[2] != 2 {
+		t.Fail()
+	}
+}
+
+func TestFirstMissingPositive(t *testing.T) {
+	nums := []int{2, 1, -1, 5}
+	result := FirstMissingPositive(nums)
+	if result != 3 {
+		t.Fail()
+	}
+}
+
+func TestIntersect(t *testing.T) {
+	nums1 := []int{2, 1, -1, 5}
+	nums2 := []int{4, 2, 1, 7}
+	result := Intersect(nums1, nums2)
+	if len(result) != 2 {
 		t.Fail()
 	}
 }

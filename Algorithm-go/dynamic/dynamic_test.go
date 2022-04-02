@@ -49,3 +49,28 @@ func TestClimbStair_Five(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMaxSubArray(t *testing.T) {
+	nums := []int{-2, 1, -3, 4, -1, 2, 1, -5, 4}
+	ret := MaxSubArray(nums)
+
+	if ret != 6 {
+		t.Fail()
+	}
+}
+
+func TestCanJump(t *testing.T) {
+	nums := []int{2, 3, 1, 1, 4}
+	ret := CanJump(nums)
+
+	if !ret {
+		t.Fail()
+	}
+}
+
+func TestUniquePaths(t *testing.T) {
+	ret := UniquePaths(3, 7)
+	if ret != 28 {
+		t.Fail()
+	}
+}

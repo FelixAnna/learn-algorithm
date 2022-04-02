@@ -38,3 +38,46 @@ func LengthOfLongestSubstring(s string) int {
 
 	return lgstLen
 }
+
+/*
+set red index to the first elements,
+set blue index to the last elements,
+
+then for i=0; i<blue; i++ {
+	if nums[i] == red {
+		swap(i, red)
+		red++
+		i++
+	} else if nums[i] == blue {
+		swap(i, blue)
+		blue--
+		continue
+	} else {
+		i++
+	}
+}
+
+return nums
+*/
+func SortColors(nums []int) {
+	if len(nums) <= 1 {
+		return
+	}
+	red, blue := 0, len(nums)-1
+
+	i := red
+	for i <= blue {
+		if nums[i] == 2 {
+			nums[i], nums[blue] = nums[blue], nums[i]
+			blue--
+			continue
+		}
+		if nums[i] == 0 {
+			nums[i], nums[red] = nums[red], nums[i]
+			red++
+		}
+
+		i++
+	}
+
+}

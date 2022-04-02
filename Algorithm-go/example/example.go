@@ -23,6 +23,7 @@ func MathCheck(count int, min, max int, md bool) {
 		Count:                 count,
 		InputRange:            []int{min, max},
 		IncludeMultiplyDivide: md,
+		ApplicationQuestions:  true,
 	}
 
 	questions := homework.CreateQuestions(criteria)

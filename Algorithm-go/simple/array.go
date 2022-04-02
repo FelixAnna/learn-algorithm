@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	sysSort "sort"
+
 	"github.com/felixanna/algorithm-go/sort"
 )
 
@@ -580,4 +582,223 @@ func RomanToInt(s string) int {
 	}
 
 	return result
+}
+
+/* Spiral Matrix
+given m*n matrix,
+define [m*n]int
+loop:
+	round 1: get int[i], and append to results x=x-1
+	round 2: get from i+1 - n, get last element, append to results, y=y-1
+	round 3: get from y - 0, append to results - x=x-1
+	round 4: get from n - i+1, append to results - y= y-1
+*/
+func SpiralOrder(matrix [][]int) []int {
+	results := []int{}
+	loopTrap(matrix, 0, len(matrix)-1, 0, len(matrix[0])-1, &results)
+
+	return results
+}
+
+func loopTrap(matrix [][]int, i1, i2, j1, j2 int, results *[]int) {
+	//round 1: get matrix[i1], append to results, i1+=1
+	*results = append(*results, matrix[i1][j1:j2+1]...)
+	i1 += 1
+
+	if i1 > i2 {
+		return
+	}
+
+	//round 2: from i1 to i2, get last element of each row
+	for i := i1; i <= i2; i++ {
+		*results = append(*results, matrix[i][j2])
+	}
+	j2 -= 1
+	if j1 > j2 {
+		return
+	}
+
+	//round 3: get last row, from last to first, append to results
+	for j := j2; j >= j1; j-- {
+		*results = append(*results, matrix[i2][j])
+	}
+	i2 -= 1
+
+	if i1 > i2 {
+		return
+	}
+
+	//round 4: for first column, append all of them from last to first
+	for i := i2; i >= i1; i-- {
+		*results = append(*results, matrix[i][j1])
+	}
+	j1 += 1
+
+	if j1 > j2 {
+		return
+	}
+
+	loopTrap(matrix, i1, i2, j1, j2, results)
+}
+
+func MergeIntervals(intervals [][]int) [][]int {
+
+	//sort intervals
+	sysSort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+
+	results := make([][]int, 0)
+
+	i := 0
+	for i < len(intervals) {
+		low, high := intervals[i][0], intervals[i][1]
+		j := i + 1
+		for j < len(intervals) && intervals[j][0] <= high {
+			high = max(high, intervals[j][1])
+			j++
+		}
+
+		results = append(results, []int{low, high})
+		i = j
+	}
+
+	return results
+}
+
+func max(i, j int) int {
+	if i > j {
+		return i
+	}
+
+	return j
+}
+
+func PlusOne(digits []int) []int {
+	inc := 1
+	for i := len(digits) - 1; i >= 0; i-- {
+		current := digits[i] + inc
+		inc = current / 10
+		digits[i] = current % 10
+		if inc == 0 {
+			break
+		}
+	}
+
+	if inc > 0 {
+		digits = append([]int{inc}, digits...)
+	}
+
+	return digits
+}
+
+func MySqrt(x int) int {
+	if x <= 1 {
+		return x
+	}
+
+	target := float64(x)
+	result := target
+
+	for result*result > target {
+		nresult := (result + target/result) / 2
+		if int(nresult) == int(result) {
+			break
+		}
+
+		result = nresult
+	}
+
+	return int(result)
+}
+
+func MySqrt2(x int) int {
+	if x <= 1 {
+		return x
+	}
+
+	cur, pre := x/2, x
+	for {
+		mult := cur * cur
+		if mult == x {
+			return mult
+		}
+
+		if mult < x {
+			cur = (cur + pre) / 2
+		} else {
+			cur, pre = cur/2, cur
+		}
+	}
+}
+
+func SetZeroes(matrix [][]int) {
+	row, column := make([]int, len(matrix)), make([]int, len(matrix[0]))
+
+	for i := 0; i < len(matrix); i++ {
+		for j := 0; j < len(matrix[i]); j++ {
+			if matrix[i][j] == 0 {
+				column[j] = 1
+				row[i] = 1
+			}
+		}
+	}
+
+	for i := 0; i < len(column); i++ {
+		if column[i] == 1 {
+			for j := 0; j < len(matrix); j++ {
+				matrix[j][i] = 0
+			}
+		}
+	}
+
+	for i := 0; i < len(row); i++ {
+		if row[i] == 1 {
+			for j := 0; j < len(matrix[i]); j++ {
+				matrix[i][j] = 0
+			}
+		}
+	}
+}
+
+/*
+first missing positive element must be in [1,len(nums)] if any elements not in this range, otherwise is len(nums)+1 if they all in the range
+for i in nums,
+    if val is 0 or negative, or greater than length(nums), ignore and continue check for next element
+    if val-1 == i, then it is in correct pos
+    if val-1 <> i, then
+        if nums[i] == nums[val-1], then continue(escape forever loop)
+        otherwise swap val to nums[val-1], then check nums[i] again
+
+second loop：
+    if val-1 != i, return val
+
+return length+1
+*/
+func FirstMissingPositive(nums []int) int {
+	length := len(nums)
+	i := 0
+	for i < len(nums) {
+
+		val := nums[i]
+
+		if val <= 0 || val > length {
+			i++
+			continue
+		}
+
+		if val-1 != i && nums[i] != nums[val-1] {
+			nums[i], nums[val-1] = nums[val-1], nums[i]
+		} else {
+			i++
+		}
+	}
+
+	for index, val := range nums {
+		if val != index+1 {
+			return index + 1
+		}
+	}
+
+	return length + 1
 }
