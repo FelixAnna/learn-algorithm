@@ -64,23 +64,20 @@ func GetCanceledPaidOrders(orderIds []string) []Order {
 	chunkList := chunkBy(orderIds, batchSize)
 
 	var ch chan []Order = make(chan []Order)
-	queryOrders(chunkList, ch)
+	go queryOrders(chunkList, ch)
 
-	canceledPaidOrders := filterOrders(ch)
-	return canceledPaidOrders
+	return filterOrders(ch)
 }
 
 func queryOrders(chunkList [][]string, ch chan []Order) {
 	waitGroup := sync.WaitGroup{}
 	waitGroup.Add(len(chunkList))
-	go func() {
-		for _, chunk := range chunkList {
-			go getOrder(chunk, ch, waitGroup)
-		}
+	for _, chunk := range chunkList {
+		go getOrder(chunk, ch, waitGroup)
+	}
 
-		waitGroup.Wait()
-		close(ch)
-	}()
+	waitGroup.Wait()
+	close(ch)
 }
 
 func filterOrders(ch <-chan []Order) []Order {
