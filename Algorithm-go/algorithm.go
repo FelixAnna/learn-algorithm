@@ -1,9 +1,15 @@
 package main
 
 import (
-	"github.com/felixanna/algorithm-go/example"
+	"fmt"
+
+	"github.com/felixanna/algorithm-go/search"
 )
 
 func main() {
-	example.MathCheck(10, 1, 50, false)
+	orderIds := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	orders := search.GetCanceledPaidOrders(orderIds)
+
+	fmt.Println(orders)
+	//example.MathCheck(10, 1, 50, false)
 }
