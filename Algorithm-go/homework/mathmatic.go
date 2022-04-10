@@ -130,8 +130,9 @@ func createdPlusMinusCase(i, j int, plus bool) string {
 		//"%v有%v个%v,吃掉了%v个,还有几个?",
 		//"%v昨天获得了%v个%v的奖励,已经吃掉了%v个,还剩几个?",
 		//"%v有%v元钱, 他想买一个%v,苹果的价格是%v元,买完之后他还有多少钱?",
-		"%v有%v个%v,吃掉了一些,还有%v个, 吃掉了几个?",
-		"%v收到了%v个%v,分给小王一些后,还有%v个, 他分给小王几个?",
+		//"%v有%v个%v,吃掉了一些,还有%v个, 吃掉了几个?",
+		"%v有%v个%v,给了妹妹%v个后,现在他们一样多了, 妹妹原来有几个?",
+		"%v收到了%v个%v,给小王一些后,还有%v个, 他分给小王几个?",
 	}
 
 	plus_templates := []string{"%v刚刚买了%v个%v,然后又发现冰箱里还有%v个,现在总共有几个?",
@@ -146,7 +147,7 @@ func createdPlusMinusCase(i, j int, plus bool) string {
 		template = minus_templates[getRandomInt(0, len(minus_templates)-1)]
 	}
 
-	result := fmt.Sprintf(template, user, i, good, j)
+	result := fmt.Sprintf(template, user, i, good, int(j/2))
 	return result
 }
 

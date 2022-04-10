@@ -1,23 +1,17 @@
 package search
 
-import (
-	"sync"
-)
-
 const batchSize = 1000
 
-type OrderStatus string
-
 const (
-	New        OrderStatus = "New"
-	Processing             = "Processing"
-	Done                   = "Done"
-	Canceled               = "Canceled"
+	Created int = iota
+	Processing
+	Done
+	Canceled
 )
 
 type Order struct {
 	Id     string
-	Status OrderStatus
+	Status int
 	Paid   bool
 }
 
@@ -36,14 +30,14 @@ func (dao *MockOrderDAO) GetOrders(orderIds []string) []Order {
 
 	results := make([]Order, len(orderIds))
 	for i := 0; i < len(orderIds); i++ {
-		status := New
-		paid := true
+		status := Created
+		paid := false
 
 		if i%3 == 0 {
 			status = Canceled
 		}
 
-		if i%2 == 0 {
+		if i%4 == 0 {
 			paid = true
 		}
 
@@ -56,50 +50,21 @@ func (dao *MockOrderDAO) GetOrders(orderIds []string) []Order {
 
 /*** dao***/
 
-var dao = MockOrderDAO{}
+var dao OrderDAO
+
+func init() {
+	dao = &MockOrderDAO{}
+}
 
 /* Given orderIds, the func will query mock api service and then get all orders with status = Canceled, Paid = true
  */
 func GetCanceledPaidOrders(orderIds []string) []Order {
 	chunkList := chunkBy(orderIds, batchSize)
+	var channels []chan []Order = make([]chan []Order, len(chunkList))
 
-	var ch chan []Order = make(chan []Order)
-	go queryOrders(chunkList, ch)
+	queryOrders(chunkList, channels)
 
-	return filterOrders(ch)
-}
-
-func queryOrders(chunkList [][]string, ch chan []Order) {
-	waitGroup := sync.WaitGroup{}
-	waitGroup.Add(len(chunkList))
-	for _, chunk := range chunkList {
-		go getOrder(chunk, ch, waitGroup)
-	}
-
-	waitGroup.Wait()
-	close(ch)
-}
-
-func filterOrders(ch <-chan []Order) []Order {
-	allOrders := make([]Order, 0)
-	for orders := range ch {
-		for _, order := range orders {
-			if order.IsCanceledPaid() {
-				allOrders = append(allOrders, order)
-			}
-		}
-	}
-	return allOrders
-}
-
-func (o *Order) IsCanceledPaid() bool {
-	return o.Paid && o.Status == Canceled
-}
-
-func getOrder(orderIds []string, ch chan<- []Order, waitGroup sync.WaitGroup) {
-	orders := dao.GetOrders(orderIds)
-	ch <- orders
-	waitGroup.Done()
+	return filterOrders(channels)
 }
 
 func chunkBy(items []string, size int) (results [][]string) {
@@ -114,4 +79,35 @@ func chunkBy(items []string, size int) (results [][]string) {
 	}
 
 	return
+}
+
+func queryOrders(chunkList [][]string, channels []chan []Order) {
+	for i := 0; i < len(chunkList); i++ {
+		channels[i] = make(chan []Order)
+		go getOrder(chunkList[i], channels[i])
+	}
+}
+
+func getOrder(orderIds []string, ch chan<- []Order) {
+	orders := dao.GetOrders(orderIds)
+	ch <- orders
+}
+
+func filterOrders(channels []chan []Order) []Order {
+	allOrders := make([]Order, 0)
+	for _, ch := range channels {
+		orders := <-ch
+		for _, order := range orders {
+			if order.IsCanceledPaid() {
+				allOrders = append(allOrders, order)
+			}
+		}
+		close(ch)
+	}
+
+	return allOrders
+}
+
+func (o *Order) IsCanceledPaid() bool {
+	return o.Paid && o.Status == Canceled
 }

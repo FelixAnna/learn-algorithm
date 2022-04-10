@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	orderIds := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	orderIds := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"}
 	orders := search.GetCanceledPaidOrders(orderIds)
 
 	fmt.Println(orders)
