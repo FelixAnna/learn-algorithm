@@ -148,3 +148,27 @@ func GetCanceledPaidOrders2(orderIds []string) []Order {
 
 	return orders
 }
+
+func GetCanceledPaidOrders3(orderIds []string) []Order {
+	chunkList := chunkBy(orderIds, batchSize)
+	group := sync.WaitGroup{}
+	result := make([]Order, 0)
+
+	for i := 0; i < len(chunkList); i++ {
+		group.Add(1)
+		go func() {
+			orders := dao.GetOrders(orderIds)
+			for _, order := range orders {
+				if order.IsCanceledPaid() {
+					result = append(result, order)
+				}
+			}
+
+			group.Done()
+		}()
+	}
+
+	group.Wait()
+
+	return result
+}
