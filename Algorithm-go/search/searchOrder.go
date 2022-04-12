@@ -1,5 +1,7 @@
 package search
 
+import "sync"
+
 const batchSize = 1000
 
 const (
@@ -110,4 +112,39 @@ func filterOrders(channels []chan []Order) []Order {
 
 func (o *Order) IsCanceledPaid() bool {
 	return o.Paid && o.Status == Canceled
+}
+
+/* Given orderIds, the func will query mock api service and then get all orders with status = Canceled, Paid = true
+ */
+func GetCanceledPaidOrders2(orderIds []string) []Order {
+	chunkList := chunkBy(orderIds, batchSize)
+	group := sync.WaitGroup{}
+	ch := make(chan []Order)
+
+	defer close(ch)
+
+	for i := 0; i < len(chunkList); i++ {
+		group.Add(1)
+		go func() {
+			orders := dao.GetOrders(orderIds)
+			result := make([]Order, 0)
+			for _, order := range orders {
+				if order.IsCanceledPaid() {
+					result = append(result, order)
+				}
+			}
+
+			ch <- result
+			group.Done()
+		}()
+	}
+
+	orders := make([]Order, 0)
+	for i := 0; i < len(chunkList); i++ {
+		orders = append(orders, <-ch...)
+	}
+
+	group.Wait()
+
+	return orders
 }
