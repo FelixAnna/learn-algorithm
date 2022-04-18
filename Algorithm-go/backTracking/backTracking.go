@@ -184,3 +184,52 @@ func findPath(i, j int, quantity *int) {
 	findPath(i-1, j, quantity)
 	findPath(i, j-1, quantity)
 }
+
+func WordExists(board [][]byte, word string) bool {
+	var exists bool
+	m, n := len(board), len(board[0])
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if exists {
+				break
+			}
+			findWord(board, i, j, word, &exists)
+		}
+	}
+
+	return exists
+}
+
+func findWord(board [][]byte, i, j int, word string, exists *bool) {
+	if board[i][j] != word[0] {
+		return
+	}
+
+	if len(word) == 1 {
+		//found one
+		//fmt.Println(word, i, j)
+		*exists = true
+		return
+	}
+
+	oldValue := board[i][j]
+	board[i][j] = '*'
+	if i > 0 {
+		findWord(board, i-1, j, word[1:], exists)
+	}
+
+	if !*exists && j > 0 {
+		findWord(board, i, j-1, word[1:], exists)
+	}
+
+	if !*exists && i < len(board)-1 {
+		findWord(board, i+1, j, word[1:], exists)
+	}
+
+	if !*exists && j < len(board[0])-1 {
+		findWord(board, i, j+1, word[1:], exists)
+	}
+
+	board[i][j] = oldValue
+}
