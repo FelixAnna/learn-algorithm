@@ -1,5 +1,10 @@
 package search
 
+import (
+	"fmt"
+	"sync"
+)
+
 const batchSize = 1000
 
 const (
@@ -94,20 +99,58 @@ func getOrder(orderIds []string, ch chan<- []Order) {
 }
 
 func filterOrders(channels []chan []Order) []Order {
-	allOrders := make([]Order, 0)
+	targetOrders := make([]Order, 0)
 	for _, ch := range channels {
 		orders := <-ch
 		for _, order := range orders {
 			if order.IsCanceledPaid() {
-				allOrders = append(allOrders, order)
+				targetOrders = append(targetOrders, order)
 			}
 		}
 		close(ch)
 	}
 
-	return allOrders
+	return targetOrders
 }
 
 func (o *Order) IsCanceledPaid() bool {
 	return o.Paid && o.Status == Canceled
+}
+
+//can i reuse one channel for diff goroutines
+
+func GetCanceledPaidOrders2(orderIds []string) []Order {
+	chunkList := chunkBy(orderIds, batchSize)
+
+	wg := sync.WaitGroup{}
+	wg.Add(len(chunkList))
+
+	var och chan []Order = make(chan []Order)
+	defer close(och)
+
+	for i := 0; i < len(chunkList); i++ {
+		go func(chunkOrders []string, ch chan<- []Order) {
+			orders := dao.GetOrders(orderIds)
+			fmt.Println("Original:", orders)
+			results := make([]Order, 0)
+			for _, o := range orders {
+				if o.IsCanceledPaid() {
+					results = append(results, o)
+				}
+			}
+			ch <- results
+			wg.Done()
+
+		}(chunkList[i], och)
+	}
+
+	canceledOrders := make([]Order, 0)
+	for i := 0; i < len(chunkList); i++ {
+		cos := <-och
+		fmt.Println("Canceled:", cos)
+		canceledOrders = append(canceledOrders, cos...)
+	}
+
+	wg.Wait()
+	return canceledOrders
 }
