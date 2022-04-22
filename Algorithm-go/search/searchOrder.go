@@ -1,13 +1,8 @@
 package search
 
-<<<<<<< HEAD
 import (
-	"fmt"
 	"sync"
 )
-=======
-import "sync"
->>>>>>> ccd71935fc88a84075949e80e7fb6c259aaf61b5
 
 const batchSize = 1000
 
@@ -156,36 +151,33 @@ func GetCanceledPaidOrders2(orderIds []string) []Order {
 	return orders
 }
 
-func GetCanceledPaidOrders3(orderIds []string) []Order {
-	chunkList := chunkBy(orderIds, batchSize)
-	group := sync.WaitGroup{}
-	mu := sync.Mutex
-	result := make([]Order, 0)
+type safeOrder struct {
+	mu     sync.Mutex
+	orders []Order
+}
 
+func GetCanceledPaidOrders3(orderIds []string) []Order {
+	group := sync.WaitGroup{}
+	result := safeOrder{orders: make([]Order, 0)}
+
+	chunkList := chunkBy(orderIds, batchSize)
 	for i := 0; i < len(chunkList); i++ {
 		group.Add(1)
-		go func() {
-			orders := dao.GetOrders(orderIds)
+		go func(oids []string) {
+			orders := dao.GetOrders(oids)
 			for _, order := range orders {
 				if order.IsCanceledPaid() {
-					mu.Lock()
-					result = append(result, order)
-					mu.Unlock()
+					result.mu.Lock()
+					result.orders = append(result.orders, order)
+					result.mu.Unlock()
 				}
 			}
 
 			group.Done()
-		}()
+		}(chunkList[i])
 	}
 
 	group.Wait()
-	
-	return result
-}
 
-	return result
-}
-}
-
-	return result
+	return result.orders
 }
