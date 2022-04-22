@@ -464,3 +464,12 @@ func TestIntersect(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMerge(t *testing.T) {
+	nums1 := []int{-1, 1, 2, 5, 0, 0, 0, 0}
+	nums2 := []int{1, 2, 4, 7}
+	MergeInplace(nums1, 4, nums2, len(nums2))
+	if len(nums1) != 8 || nums1[7] != 7 {
+		t.Fail()
+	}
+}

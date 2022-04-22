@@ -74,3 +74,12 @@ func TestSubset(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestWordExists(t *testing.T) {
+	board := [][]byte{{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}}
+	word := "ABCCED"
+	results := WordExists(board, word)
+	if results != true {
+		t.Fail()
+	}
+}

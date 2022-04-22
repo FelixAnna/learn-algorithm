@@ -1,9 +1,13 @@
 package search
 
+<<<<<<< HEAD
 import (
 	"fmt"
 	"sync"
 )
+=======
+import "sync"
+>>>>>>> ccd71935fc88a84075949e80e7fb6c259aaf61b5
 
 const batchSize = 1000
 
@@ -117,40 +121,71 @@ func (o *Order) IsCanceledPaid() bool {
 	return o.Paid && o.Status == Canceled
 }
 
-//can i reuse one channel for diff goroutines
-
+/* Given orderIds, the func will query mock api service and then get all orders with status = Canceled, Paid = true
+ */
 func GetCanceledPaidOrders2(orderIds []string) []Order {
 	chunkList := chunkBy(orderIds, batchSize)
+	group := sync.WaitGroup{}
+	ch := make(chan []Order)
 
-	wg := sync.WaitGroup{}
-	wg.Add(len(chunkList))
-
-	var och chan []Order = make(chan []Order)
-	defer close(och)
+	defer close(ch)
 
 	for i := 0; i < len(chunkList); i++ {
-		go func(chunkOrders []string, ch chan<- []Order) {
+		group.Add(1)
+		go func() {
 			orders := dao.GetOrders(orderIds)
-			fmt.Println("Original:", orders)
-			results := make([]Order, 0)
-			for _, o := range orders {
-				if o.IsCanceledPaid() {
-					results = append(results, o)
+			result := make([]Order, 0)
+			for _, order := range orders {
+				if order.IsCanceledPaid() {
+					result = append(result, order)
 				}
 			}
-			ch <- results
-			wg.Done()
 
-		}(chunkList[i], och)
+			ch <- result
+			group.Done()
+		}()
 	}
 
-	canceledOrders := make([]Order, 0)
+	orders := make([]Order, 0)
 	for i := 0; i < len(chunkList); i++ {
-		cos := <-och
-		fmt.Println("Canceled:", cos)
-		canceledOrders = append(canceledOrders, cos...)
+		orders = append(orders, <-ch...)
 	}
 
-	wg.Wait()
-	return canceledOrders
+	group.Wait()
+
+	return orders
+}
+
+func GetCanceledPaidOrders3(orderIds []string) []Order {
+	chunkList := chunkBy(orderIds, batchSize)
+	group := sync.WaitGroup{}
+	mu := sync.Mutex
+	result := make([]Order, 0)
+
+	for i := 0; i < len(chunkList); i++ {
+		group.Add(1)
+		go func() {
+			orders := dao.GetOrders(orderIds)
+			for _, order := range orders {
+				if order.IsCanceledPaid() {
+					mu.Lock()
+					result = append(result, order)
+					mu.Unlock()
+				}
+			}
+
+			group.Done()
+		}()
+	}
+
+	group.Wait()
+	
+	return result
+}
+
+	return result
+}
+}
+
+	return result
 }
