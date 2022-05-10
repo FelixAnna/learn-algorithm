@@ -103,3 +103,30 @@ func RemoveNthFromEnd(head *ListNode, n int) *ListNode {
 
 	return head
 }
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func IsSymmetric(root *TreeNode) bool {
+	return isSymmetricNode(root.Left, root.Right)
+}
+
+func isSymmetricNode(left, right *TreeNode) bool {
+	if left == nil && right == nil {
+		return true
+	}
+
+	if left == nil || right == nil {
+		return false
+	}
+
+	if left.Val != right.Val {
+		return false
+	}
+
+	return isSymmetricNode(left.Left, right.Right) &&
+		isSymmetricNode(left.Right, right.Left)
+}

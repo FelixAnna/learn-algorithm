@@ -178,3 +178,54 @@ func UniquePaths(m int, n int) int {
 
 	return quantities[m-1][n-1]
 }
+
+func NumDecodings(s string) int {
+	ways := make([]int, len(s)+1)
+
+	ways[0] = 1
+	if s[0] != '0' {
+		ways[1] = 1
+	}
+
+	/*
+	 *	1,2 0     fn = f(n-2)  //n-2  + 10/20
+	 *	*   0     fn = 0
+
+	 *   0   1-9   fn = f(n-1)
+	 *	1   1-9   fn = f(n-1)+f(n-2)  //n-1 + x, or n-2 +xx
+
+	 *	2   1-6   fn = f(n-1)+f(n-2)
+	 *	2   7-9   fn = f(n-1)   //n-1 + x
+
+	 *	3-9 1-9   fn = f(n-1)	//n-1 + x
+	 */
+
+	for i := 1; i < len(s); i++ {
+		cur, pre := s[i], s[i-1]
+
+		//fmt.Println(i, pre - '0', cur- '0')
+
+		way := 0
+		switch {
+		case cur == '0' && (pre == '1' || pre == '2'):
+			way = ways[i-1]
+
+		case cur == '0': //pre not in (1,2)
+			way = 0
+
+		case pre == '1' || (pre == '2' && cur <= '6'):
+			way = ways[i-1] + ways[i]
+
+		case pre == '0':
+			way = ways[i]
+		case pre == '2' && cur >= '7':
+			way = ways[i]
+		case pre >= '3':
+			way = ways[i]
+		}
+
+		ways[i+1] = way
+	}
+
+	return ways[len(s)]
+}

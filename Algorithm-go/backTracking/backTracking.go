@@ -233,3 +233,36 @@ func findWord(board [][]byte, i, j int, word string, exists *bool) {
 
 	board[i][j] = oldValue
 }
+
+func numDecodings(s string) int {
+	way := 0
+
+	decodeCheck(s, &way)
+
+	return way
+}
+
+func decodeCheck(s string, way *int) {
+	if len(s) == 0 {
+		*way = *way + 1
+		return
+	}
+
+	if s[0] == '0' {
+		return
+	} else {
+		decodeCheck(s[1:], way)
+	}
+
+	if len(s) >= 2 {
+		if s[0] == '1' {
+			decodeCheck(s[2:], way)
+			return
+		}
+
+		if s[0] == '2' && s[1] <= '6' {
+			decodeCheck(s[2:], way)
+			return
+		}
+	}
+}

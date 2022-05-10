@@ -74,3 +74,17 @@ func TestUniquePaths(t *testing.T) {
 		t.Fail()
 	}
 }
+func TestNumDecodings_NoWay(t *testing.T) {
+	ret := NumDecodings("06")
+	if ret != 0 {
+		t.Fail()
+	}
+}
+
+func TestNumDecodings_HaveWay(t *testing.T) {
+	ret := NumDecodings("12")
+	if ret != 2 {
+		t.Fail()
+	}
+}
+
