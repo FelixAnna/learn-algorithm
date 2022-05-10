@@ -1,6 +1,8 @@
 package search
 
-import "sync"
+import (
+	"sync"
+)
 
 const batchSize = 1000
 
@@ -96,18 +98,18 @@ func getOrder(orderIds []string, ch chan<- []Order) {
 }
 
 func filterOrders(channels []chan []Order) []Order {
-	allOrders := make([]Order, 0)
+	targetOrders := make([]Order, 0)
 	for _, ch := range channels {
 		orders := <-ch
 		for _, order := range orders {
 			if order.IsCanceledPaid() {
-				allOrders = append(allOrders, order)
+				targetOrders = append(targetOrders, order)
 			}
 		}
 		close(ch)
 	}
 
-	return allOrders
+	return targetOrders
 }
 
 func (o *Order) IsCanceledPaid() bool {
@@ -149,26 +151,33 @@ func GetCanceledPaidOrders2(orderIds []string) []Order {
 	return orders
 }
 
-func GetCanceledPaidOrders3(orderIds []string) []Order {
-	chunkList := chunkBy(orderIds, batchSize)
-	group := sync.WaitGroup{}
-	result := make([]Order, 0)
+type safeOrder struct {
+	mu     sync.Mutex
+	orders []Order
+}
 
+func GetCanceledPaidOrders3(orderIds []string) []Order {
+	group := sync.WaitGroup{}
+	result := safeOrder{orders: make([]Order, 0)}
+
+	chunkList := chunkBy(orderIds, batchSize)
 	for i := 0; i < len(chunkList); i++ {
 		group.Add(1)
-		go func() {
-			orders := dao.GetOrders(orderIds)
+		go func(oids []string) {
+			orders := dao.GetOrders(oids)
 			for _, order := range orders {
 				if order.IsCanceledPaid() {
-					result = append(result, order)
+					result.mu.Lock()
+					result.orders = append(result.orders, order)
+					result.mu.Unlock()
 				}
 			}
 
 			group.Done()
-		}()
+		}(chunkList[i])
 	}
 
 	group.Wait()
 
-	return result
+	return result.orders
 }

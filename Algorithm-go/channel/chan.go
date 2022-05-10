@@ -14,6 +14,7 @@ package channel
 
 import (
 	"fmt"
+	"math/rand"
 	"sync"
 	"time"
 )
@@ -184,4 +185,52 @@ func swapChan(inch <-chan int, outch chan<- int) {
 	}
 
 	close(outch)
+}
+
+//fanIn 2 channel with timeout example
+func fanIn(input1, input2 <-chan string, timeOutInSec int) <-chan string {
+	output := make(chan string)
+	var timeout = 0
+	var totalTimeTimeout = time.After(1 * time.Second)
+	go func() {
+		for {
+			select {
+			case s1 := <-input1:
+				output <- s1
+			case s2 := <-input2:
+				output <- s2
+			case <-time.After(time.Duration(timeOutInSec) * time.Millisecond):
+				output <- fmt.Sprintf("Timeout %v", timeout)
+			case <-totalTimeTimeout:
+				output <- fmt.Sprintf("Total Timeout %v", timeout)
+				//return
+			}
+		}
+	}()
+
+	return output
+}
+
+func makeChan(name string) <-chan string {
+	ch := make(chan string)
+	go func() {
+		for i := 0; ; i++ {
+			ch <- fmt.Sprintf("%v %v", name, i)
+			time.Sleep(time.Duration(time.Duration(rand.Intn(900)) * time.Millisecond))
+		}
+	}()
+
+	return ch
+}
+
+func ProcessChans() {
+	f, a := makeChan("felix"), makeChan("anna")
+
+	ch := fanIn(f, a, 300)
+	fmt.Println("Start printing...")
+	for i := 0; i < 10; i++ {
+		fmt.Println(<-ch)
+	}
+
+	fmt.Println("Finised printing.")
 }
